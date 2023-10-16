@@ -11,20 +11,20 @@ int main(){
     // ler o arquivo e mandar para a funçao generate_map
 
     do{
-        printf("Digite o caminho do arquivo: ");
+        printf("\nDigite o caminho do arquivo: \n");
 
         strcpy(file_path, "./mapGenerator/map0.txt");
         //scanf("%s", file_path);
 
-        printf("Arquivo: %s\n", file_path);
+        printf("\nArquivo: %s\n", file_path);
 
         f = fopen(file_path, "r");
 
         if(f == NULL){
-            printf("Arquivo nao encontrado\n");
+            printf("\nArquivo nao encontrado\n\n");
         }
         else{
-            printf("Arquivo encontrado\n");
+            printf("\nArquivo encontrado!!!\n\n");
         }
     }
 
@@ -37,6 +37,8 @@ int main(){
     // printar o mapa
 
     printAtributos(map);
+
+    puts("\n");
 
     show_map(map);    
 
