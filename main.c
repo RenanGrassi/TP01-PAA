@@ -1,17 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include "map/map.h"
+#include "headers/map.h"
 
 int main(){
 
     FILE *f;
     char stay_running;
     char file_path[250];
-    int tamI, tamJ;
-    int keys;
-    int chestI, chestJ;
 
     Map *map;
 
@@ -20,7 +13,7 @@ int main(){
     do{
         printf("Digite o caminho do arquivo: ");
 
-        strcpy(file_path, "./mapGenerator/map.txt");
+        strcpy(file_path, "./mapGenerator/map0.txt");
         //scanf("%s", file_path);
 
         printf("Arquivo: %s\n", file_path);
@@ -37,10 +30,15 @@ int main(){
 
     while(f == NULL);
 
-    //ler a primeira linha da matriz e mandar para a funçao generate_map
+    // mandar para uma funçao o file e criar o map
 
-    fscanf(f, "%d %d", &tamI, &tamJ);
+    map = generate_map(f);
 
+    // printar o mapa
+
+    printAtributos(map);
+
+    show_map(map);    
 
     return 0;
 }
