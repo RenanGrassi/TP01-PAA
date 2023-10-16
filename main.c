@@ -40,5 +40,6 @@ int main(){
 
     show_map(map);    
 
+    pausar_tela(); // pausa para ser limpo depois
     return 0;
 }
