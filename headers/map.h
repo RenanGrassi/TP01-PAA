@@ -1,4 +1,4 @@
-#include "solutions.c"
+#include "solutions.h"
 
 #ifndef MAP
 #define MAP
