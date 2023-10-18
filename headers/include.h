@@ -6,9 +6,6 @@
 #include <math.h>
 #include <stdbool.h>
 
-
-
-
 #if defined(__MINGW32__) || defined(_MSC_VER)
 #define limpar_input() fflush(stdin)
 #define limpar_tela() system("cls")

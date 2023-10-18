@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "solution.h": "c",
+        "map.h": "c"
+    }
+}
