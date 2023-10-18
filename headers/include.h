@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <stdbool.h>
+#include <ncurses.h>
 
 #if defined(__MINGW32__) || defined(_MSC_VER)
 #define limpar_input() fflush(stdin)
