@@ -1,12 +1,12 @@
 #include "../headers/solution.h"
 
-bool isSafe(int** map, int maxLinha, int maxColuna, int i, int j){
+bool isSafe(char** map, int maxLinha, int maxColuna, int i, int j){
     if(i >= 0 && i < maxLinha && j >= 0 && j < maxColuna && map[i][j] == 0)
         return true;
     return false;
 }
 
-bool solveMap(int** map, int maxLinha, int maxColuna, int i, int j, int** resolve){
+bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve){
     // if (x, y is goal) return true
     if (i == maxLinha - 1 && j == maxColuna - 1 && map[i][j] == 1) {
         resolve[i][j] = 1;

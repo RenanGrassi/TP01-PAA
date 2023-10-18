@@ -1,6 +1,6 @@
 #include "include.h"
 
-bool isSafe(int** map, int maxLinha, int maxColuna, int i, int j);
+bool isSafe(char** map, int maxLinha, int maxColuna, int i, int j);
 
 // bool solveMaze(int maze[N][N])
 // {
@@ -16,4 +16,4 @@ bool isSafe(int** map, int maxLinha, int maxColuna, int i, int j);
 //     return true;
 // }
  
-bool solveMap(int** map, int maxLinha, int maxColuna, int i, int j, Resolve resolve);
+bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve);
