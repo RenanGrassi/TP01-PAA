@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <stdbool.h>
+#include <ncurses.h>
 
 
 

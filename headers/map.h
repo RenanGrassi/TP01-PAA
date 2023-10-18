@@ -13,6 +13,8 @@ typedef struct Map{
 void show_map(Map* map);
 void atributos(FILE *f, Map *map);
 void printAtributos(Map *map);
-Map *generate_map(FILE* f);
+Map* generate_map(FILE* f);
+void teste();
+void pausar_limpar();
 
 #endif // MAP
