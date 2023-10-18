@@ -97,6 +97,7 @@ Map *generate_map(FILE *f){
 
     map->Matrix = (char**) calloc(sizeof(char*), map->tamI);
 
+
     for (int i = 0; i < map->tamI; i++) {
         map->Matrix[i] = (char*) calloc(sizeof(char), map->chestJ);
     }

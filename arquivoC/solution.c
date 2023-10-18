@@ -13,9 +13,21 @@ bool solveMap(int** map, int maxLinha, int maxColuna, int i, int j, int** resolv
         return true;
     }
     // Check if maze[i][j] is valid
-    if (isSafe(map, i, j) == true) {
+    if (isSafe(map, maxLinha, maxColuna, i, j) == true) {
         // Check if the current block is alreadj part of
-        // resolveution path.
+        // resolveution path.// bool solveMaze(int maze[N][N])
+// {
+//     int sol[N][N] = { { 0, 0, 0, 0 },
+//                       { 0, 0, 0, 0 },
+//                       { 0, 0, 0, 0 },
+//                       { 0, 0, 0, 0 } };
+//     if (solveMazeUtil(maze, 0, 0, sol) == false) {
+//         printf("Solution doesn't exist");
+//         return false;
+//     }
+//     printSolution(sol);
+//     return true;
+// }
         if (resolve[i][j] == 1)
             return false;
         // mark i, j as part of resolveution path

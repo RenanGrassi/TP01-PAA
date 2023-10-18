@@ -1,6 +1,6 @@
 all:
 	clear
-	gcc ./headers/include.h	 ./headers/map.h	 ./arquivoC/map.c	   main.c	-lm  -o	 exec
+	gcc ./headers/include.h	 ./headers/map.h	./headers/solution.h	 ./arquivoC/map.c	./arquivoC/solution.c	   main.c	-lm  -o	 exec
 	./exec
 	
 	

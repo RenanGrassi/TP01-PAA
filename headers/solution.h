@@ -16,4 +16,4 @@ bool isSafe(int** map, int maxLinha, int maxColuna, int i, int j);
 //     return true;
 // }
  
-bool solveMap(int** map, int maxLinha, int maxColuna, int i, int j, int** resolve);
+bool solveMap(int** map, int maxLinha, int maxColuna, int i, int j, Resolve resolve);
