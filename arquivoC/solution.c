@@ -6,14 +6,14 @@ bool isSafe(char** map, int maxLinha, int maxColuna, int i, int j){
     return false;
 }
 
-bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve){
+bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve){ // tem que salvar o menor caminho e mandar dps
     // if (x, y is goal) return true
     if (i == maxLinha - 1 && j == maxColuna - 1 && map[i][j] == 1) {
         resolve[i][j] = 1;
         return true;
     }
     // Check if maze[i][j] is valid
-    if (isSafe(map, maxLinha, maxColuna, i, j) == true) {
+    if (isSafe(map, maxLinha, maxColuna, i, j) == true) { /// verifica se realmente é seguro
         // Check if the current block is alreadj part of
         // resolveution path.// bool solveMaze(int maze[N][N])
 // {
@@ -38,6 +38,12 @@ bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** reso
         // If moving in i direction doesn't give solution
         // then Move down in j direction
         if (solveMap(map, maxLinha, maxColuna,  i, j + 1, resolve) == true)
+            return true;
+
+        if (solveMap(map, maxLinha, maxColuna, i - 1, j, resolve) == true)
+            return true;
+        
+        if (solveMap(map, maxLinha, maxColuna, i, j - 1, resolve) == true)
             return true;
         // If none of the above movements work then
         // BACKTRACK: unmark i, j as part of solution path
