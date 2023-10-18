@@ -1,6 +1,5 @@
 #include "./headers/terminal.h"
 
-
 int main(){
 
     // nc();

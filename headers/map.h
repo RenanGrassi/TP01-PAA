@@ -1,4 +1,4 @@
-#include "include.h"
+#include "solution.h"
 
 #ifndef MAP
 #define MAP
@@ -10,6 +10,8 @@ typedef struct Map{
     char **Matrix;
 }Map;
 
+void grafic(char block);
+void linha(int tam);
 void show_map(Map* map);
 void atributos(FILE *f, Map *map);
 void printAtributos(Map *map);

@@ -1,6 +1,5 @@
 #include "../headers/map.h"
 
-
 void teste(){
     printw("\n\nteste\n\n");
     refresh();
@@ -39,6 +38,7 @@ void grafic(char block){
     
     //desenahr um personagem
     case 'P':
+
         attron(COLOR_PAIR(4));  // Define a cor do texto
         printw("o-");
         attroff(COLOR_PAIR(4));  // Desfaz a cor do texto
@@ -134,6 +134,7 @@ Map* generate_map(FILE* f){
     atributos(f, map);
 
     map->Matrix = (char**) calloc(sizeof(char*), map->tamI);
+
 
     for (int i = 0; i < map->tamI; i++) {
         map->Matrix[i] = (char*) calloc(sizeof(char), map->chestJ);
