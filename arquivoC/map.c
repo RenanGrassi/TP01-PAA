@@ -1,14 +1,74 @@
 #include "../headers/map.h"
 
+void grafic(char block){
+    switch (block){
+    case '0':
+        printf("  ");
+        break;
+
+    case '1':
+        //cor marrom printf("[]");
+        printf("\033[0;38;5;94m[]\033[0m");
+        break;
+
+    case 'C':
+        printf("\033[0;32m0-\033[0m");
+        break;
+    
+    case 'X':
+        printf("\033[0;33mXX\033[0m");
+        break;
+    
+    //desenahr um personagem
+    case 'P':
+        printf("\033[0;34mo-\033[0m");
+        break;
+
+    case 'A':
+        //print fogo
+        printf("\033[0;31m{}\033[0m");
+        break;
+
+    default:
+        break;
+    }
+}
+
+void linha(int tam){
+    for (int i = 0; i < (tam*2)+2; i++) {
+        printf("-");
+    }
+    puts("");
+}
+
+void coluna(int tam){
+
+    printf("|");
+
+}
+
 void show_map(Map* map){
     int i, j;
-
+    
+    linha(map->tamJ);
+    
     for(i = 0; i < map->tamI; i++) {
         for(j = 0; j < map->tamJ; j++) {
-            printf("%c ", map->Matrix[i][j]);
+            if (j == 0) {
+                coluna(map->tamJ);
+            }
+
+            // printf("%c", map->Matrix[i][j]);
+            grafic(map->Matrix[i][j]);
+
+            if (j == map->tamJ - 1) {
+                coluna(map->tamJ);
+            }
         }
         puts("");
-    }   
+    }
+
+    linha(map->tamJ); 
 }
 
 void atributos(FILE *f, Map *map){ //adiciona os atributos do map.h

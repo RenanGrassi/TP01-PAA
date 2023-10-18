@@ -13,7 +13,7 @@ int main(){
     do{
         printf("\nDigite o caminho do arquivo: \n");
 
-        strcpy(file_path, "./mapGenerator/map0.txt");
+        strcpy(file_path, "./mapGenerator/map1.txt");
         //scanf("%s", file_path);
 
         printf("\nArquivo: %s\n", file_path);
