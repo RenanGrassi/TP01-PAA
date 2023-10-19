@@ -1,8 +1,8 @@
 #include "../headers/map.h"
 
 void teste(){
-    printw("\n\nteste\n\n");
-    refresh();
+    printf("\n\nteste\n\n");
+    // refresh();
 }
 
 
@@ -10,45 +10,45 @@ void grafic(char block){
     switch (block){
 
     case '0':
-        printw("  ");
+        printf("  ");
         break;
 
     case '1':
-        attron(COLOR_PAIR(1));  // Define a cor do texto
-        printw("  ");
-        attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
+        // attron(COLOR_PAIR(1));  // Define a cor do texto
+        printf("  ");
+        // attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
         break;
 
     case 'C':
-        attron(COLOR_PAIR(2));  // Define a cor do texto
-        printw("0-");
-        attroff(COLOR_PAIR(2));  // Desfaz a cor do texto
+        // attron(COLOR_PAIR(2));  // Define a cor do texto
+        printf("0-");
+        // attroff(COLOR_PAIR(2));  // Desfaz a cor do texto
         break;
     
     case 'X':
-        attron(COLOR_PAIR(3));  // Define a cor do texto
-        printw("[]");
-        attroff(COLOR_PAIR(3));  // Desfaz a cor do texto
+        // attron(COLOR_PAIR(3));  // Define a cor do texto
+        printf("[]");
+        // attroff(COLOR_PAIR(3));  // Desfaz a cor do texto
         break;
     
     //desenahr um personagem
     case 'P':
 
-        attron(COLOR_PAIR(4));  // Define a cor do texto
-        printw("o-");
-        attroff(COLOR_PAIR(4));  // Desfaz a cor do texto
+        // attron(COLOR_PAIR(4));  // Define a cor do texto
+        printf("o-");
+        // attroff(COLOR_PAIR(4));  // Desfaz a cor do texto
         break;
     
     case 'p':
-        attron(COLOR_PAIR(5));  // Define a cor do texto
-        printw("  ");
-        attroff(COLOR_PAIR(5));  // Desfaz a cor do texto
+        // attron(COLOR_PAIR(5));  // Define a cor do texto
+        printf("  ");
+        // attroff(COLOR_PAIR(5));  // Desfaz a cor do texto
         break;
 
     case 'A':
-        attron(COLOR_PAIR(6));  // Define a cor do texto
-        printw("  ");
-        attroff(COLOR_PAIR(6));  // Desfaz a cor do texto
+        // attron(COLOR_PAIR(6));  // Define a cor do texto
+        printf("  ");
+        // attroff(COLOR_PAIR(6));  // Desfaz a cor do texto
         break;
 
     default:
@@ -59,21 +59,21 @@ void grafic(char block){
 
 void linha(int tam){
     for (int i = 0; i < tam+2; i++) {
-        attron(COLOR_PAIR(1));  // Define a cor do texto
-        printw("  ");
-        attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
-        refresh();
+        // attron(COLOR_PAIR(1));  // Define a cor do texto
+        printf("  ");
+        // attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
+        // refresh();
     }
-    printw("\n");
-    refresh();
+    printf("\n");
+    // refresh();
 }
 
 void coluna(int tam){
 
-    attron(COLOR_PAIR(1));  // Define a cor do texto
-    printw("  ");
-    attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
-    refresh();
+    // attron(COLOR_PAIR(1));  // Define a cor do texto
+    printf("  ");
+    // attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
+    // refresh();
 
 }
 
@@ -88,22 +88,22 @@ void showMap(TipoMap* map, bool movimento){
                 coluna(map->tamJ);
             }
 
-            // printw("%c ", map->Matrix[i][j]);
+            // printf("%c ", map->Matrix[i][j]);
             if (movimento)
                 grafic(map->MatrixMovimento[i][j]);
             
             else 
                 grafic(map->Matrix[i][j]);
             
-            refresh();
+            // refresh();
 
 
             if (j == map->tamJ - 1) {
                 coluna(map->tamJ);
             }
         }
-        printw("\n");
-        refresh();
+        printf("\n");
+        // refresh();
     }
 
     
@@ -120,17 +120,17 @@ void atributos(FILE *f, TipoMap* map){ //adiciona os atributos do map.h
 }
 
 void printAtributos(TipoMap* map){
-    printw("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);
-    refresh();  
+    printf("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);
+    // refresh();  
 
-    printw("keys: %d\n", map->keys);
-    refresh();  
+    printf("keys: %d\n", map->keys);
+    // refresh();  
 
-    printw("chestI: %d, chestJ: %d\n", map->chestI, map->chestJ);
-    refresh(); 
+    printf("chestI: %d, chestJ: %d\n", map->chestI, map->chestJ);
+    // refresh(); 
 
-    printw("\n");
-    refresh();     
+    printf("\n");
+    // refresh();     
 
 }
 
@@ -158,7 +158,7 @@ TipoMap* generate_map(FILE* f){
 
 
             if (read >= 48 && read <= 122) {
-                    // printw("%c", read);
+                    // printf("%c", read);
                     map->Matrix[i][j] = read;
                     j++;
             }
