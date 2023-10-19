@@ -5,5 +5,5 @@ void lerArquivo(FILE** f);
 void identificarCaminhada(int* i, int* j, char ch);
 char caminhar();
 void menu();
-void movimentacao(Map* map, int atualI, int atualJ);
+void movimentacao(TipoMap* map, int atualI, int atualJ);
 

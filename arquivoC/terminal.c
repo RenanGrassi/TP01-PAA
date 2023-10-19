@@ -97,7 +97,7 @@ void identificarCaminhada(int* i, int* j, char ch){
     }
 }
 
-void chaminhar (Map* map){
+void chaminhar (TipoMap* map){
 
     printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
     ncPausar();
@@ -109,7 +109,7 @@ void chaminhar (Map* map){
     while (true){
 
         int ch = getch();  // Lê um caractere
-        limpar_tela();
+        limparTela();
 
         if (ch == '0'){
             break;
@@ -124,7 +124,7 @@ void chaminhar (Map* map){
 void menu(){
 
     FILE* f;
-    Map *map;
+    TipoMap* map;
     int opcao = 1;
 
     //fazer um swtich case com as opçoes do menu
@@ -149,7 +149,7 @@ void menu(){
         printw("%d", opcao);
         refresh();
 
-        limpar_tela();
+        limparTela();
 
         switch (opcao){
 
@@ -169,7 +169,7 @@ void menu(){
                 break;
 
             case 3:
-                show_map(map, false);
+                showMap(map, false);
                 break;
             
             case 5:
@@ -184,11 +184,11 @@ void menu(){
     
 }
 
-void movimentacao(Map* map, int atualI, int atualJ){
+void movimentacao(TipoMap* map, int atualI, int atualJ){
     
     map->MatrixMovimento[atualI][atualJ] = 'P';
     printw("\n");
-    show_map(map, true);
+    showMap(map, true);
 
     map->MatrixMovimento[atualI][atualJ] = 'p';
     

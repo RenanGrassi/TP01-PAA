@@ -5,11 +5,6 @@ void teste(){
     refresh();
 }
 
-void pausar_limpar(){
-    pausar_tela();
-    limpar_tela();
-}
-
 
 void grafic(char block){
     switch (block){
@@ -82,7 +77,7 @@ void coluna(int tam){
 
 }
 
-void show_map(Map* map, bool movimento){
+void showMap(TipoMap* map, bool movimento){
     int i, j;
     
     linha(map->tamJ);
@@ -115,7 +110,7 @@ void show_map(Map* map, bool movimento){
     linha(map->tamJ); 
 }
 
-void atributos(FILE *f, Map *map){ //adiciona os atributos do map.h
+void atributos(FILE *f, TipoMap* map){ //adiciona os atributos do map.h
     
     fscanf(f, "%d %d", &(map->tamI), &(map->tamJ));
     
@@ -124,7 +119,7 @@ void atributos(FILE *f, Map *map){ //adiciona os atributos do map.h
     fscanf(f, "%d %d", &(map->chestI), &(map->chestJ));
 }
 
-void printAtributos(Map *map){
+void printAtributos(TipoMap* map){
     printw("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);
     refresh();  
 
@@ -139,11 +134,11 @@ void printAtributos(Map *map){
 
 }
 
-Map* generate_map(FILE* f){
+TipoMap* generate_map(FILE* f){
     int i, j;
     char read;
     
-    Map *map = (Map*) malloc(sizeof(Map));
+    TipoMap* map = (TipoMap*) malloc(sizeof(TipoMap));
 
     // receber os atributos do mapa
     atributos(f, map);
@@ -176,7 +171,7 @@ Map* generate_map(FILE* f){
     return map;
 }
 
-void copyMap(Map* map) {
+void copyMap(TipoMap* map) {
     int i, j;
 
     map->MatrixMovimento = (char**) malloc(map->tamI * sizeof(char*));
@@ -192,7 +187,7 @@ void copyMap(Map* map) {
     }
 }
 
-void freeMap(Map* map){
+void freeMap(TipoMap* map){
     int i;
 
     for (i = 0; i < map->tamI; i++) {

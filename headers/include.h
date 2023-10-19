@@ -9,16 +9,16 @@
 
 
 #if defined(__MINGW32__) || defined(_MSC_VER)
-#define limpar_input() fflush(stdin)
-#define limpar_tela() cls();
-#define pausar_tela() system("pause")
-#define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); getch(); cls(); refresh();
+#define limparInput() fflush(stdin)
+#define limparTela() cls();
+#define pausarTela() system("pause");
+#define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); limparInput(); getch(); cls(); refresh();
 
 #else
 #include <stdio_ext.h>
-#define limpar_input() __fpurge(stdin)
-#define limpar_tela() clear();
-#define pausar_tela() printf("\nPress any key to continue..."); limpar_input(); getchar();
-#define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); getch(); clear(); refresh();
+#define limparInput() __fpurge(stdin)
+#define limparTela() clear();
+#define pausarTela() printf("\nPress any key to continue..."); limparInput(); getchar();
+#define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); limparInput(); getch(); clear(); refresh();
 
 #endif
