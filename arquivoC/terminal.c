@@ -95,6 +95,9 @@ void identificarCaminhada(int* i, int* j, char ch){
 
 void chaminhar (Map* map){
 
+    printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n");
+    ncPausar();
+
     int i = 0, j = 0;
 
     movimentacao(map, i, j);
@@ -126,55 +129,67 @@ void menu(){
 
     //faça o menu que pedi acima
 
-    // while (opcao){
+    while (opcao){
 
-    //     // printar menu
-    //     // printw()
+        // printar menu
+        printw("\n1 - Ler arquivo e gerar mapa\n2 - Printar atributos do mapa\n3 - Printar mapa\n4 - Achar o menor caminho\n5 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
+        refresh();
         
-    //     scanf("%d", &opcao);
+        opcao = getch();
+        opcao = opcao - 48;
 
-    //     switch (opcao)
-    //     {
-    //     case 1:
-    //         lerArquivo(&f);
+        printw("%d", opcao);
+        refresh();
 
-    //         map = generate_map(f);
-    //         fclose(f);
-    //         break;
-        
-    //     case 2:
-    //         printAtributos(map);
-    //         break;
+        limpar_tela();
 
-    //     case 3:
-    //         show_map(map, false);
-    //         break;
-        
-    //     case 5:
-    //         chaminhar(map);
-    //         break;
-                
-    //     default:
-    //         break;
-    //     }
-    // }
+        switch (opcao){
+
+            case 0:
+                freeMap(map);
+                break;
+
+            case 1:
+                lerArquivo(&f);
+
+                map = generate_map(f);
+                fclose(f);
+                break;
+            
+            case 2:
+                printAtributos(map);
+                break;
+
+            case 3:
+                show_map(map, false);
+                break;
+            
+            case 5:
+                chaminhar(map);
+                break;
+                    
+            default:
+                break;
+        }
+        ncPausar();
+    }
     
     
-    lerArquivo(&f);
+    // lerArquivo(&f);
 
-    map = generate_map(f);
-    fclose(f);
+    // map = generate_map(f);
+    // fclose(f);
 
-    printAtributos(map);
-    printw("\n");
-    refresh();
+    // printAtributos(map);
+    // printw("\n");
+    // refresh();
 
-    show_map(map, false);
-    ncPausar();
+    // show_map(map, false);
+    // ncPausar();
 
-    chaminhar(map);
+    // chaminhar(map);
 
-    freeMap(map);
+    // freeMap(map);
 }
 
 void movimentacao(Map* map, int atualI, int atualJ){

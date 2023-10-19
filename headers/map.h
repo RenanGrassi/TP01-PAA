@@ -18,6 +18,7 @@ void atributos(FILE *f, Map *map);
 void printAtributos(Map *map);
 Map* generate_map(FILE* f);
 void copyMap(Map* map);
+void freeMap(Map* map);
 void teste();
 void pausar_limpar();
 
