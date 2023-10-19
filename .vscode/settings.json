@@ -9,6 +9,8 @@
         "unordered_map": "c",
         "vector": "c",
         "system_error": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "termios.h": "c",
+        "fcntl.h": "c"
     }
 }

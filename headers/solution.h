@@ -30,6 +30,7 @@
 // } TipoListaPosicao;
 
 
+int kbhit();
 
 bool isSafe(char** map, int maxLinha, int maxColuna, int i, int j);
 

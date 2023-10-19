@@ -2,7 +2,6 @@
 
 void teste(){
     printf("\n\nteste\n\n");
-    // refresh();
 }
 
 
@@ -14,41 +13,23 @@ void grafic(char block){
         break;
 
     case '1':
-        // attron(COLOR_PAIR(1));  // Define a cor do texto
-        printf("  ");
-        // attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
+        printf("\x1b[41m  \x1b[0m"); // vermelho
         break;
-
     case 'C':
-        // attron(COLOR_PAIR(2));  // Define a cor do texto
-        printf("0-");
-        // attroff(COLOR_PAIR(2));  // Desfaz a cor do texto
+        printf("\x1b[32m0-\x1b[0m"); // verde
         break;
     
     case 'X':
-        // attron(COLOR_PAIR(3));  // Define a cor do texto
-        printf("[]");
-        // attroff(COLOR_PAIR(3));  // Desfaz a cor do texto
+        printf("\x1b[33m[]\x1b[0m"); // amarelo
         break;
     
     //desenahr um personagem
     case 'P':
-
-        // attron(COLOR_PAIR(4));  // Define a cor do texto
-        printf("o-");
-        // attroff(COLOR_PAIR(4));  // Desfaz a cor do texto
+        printf("\x1b[36mo-\x1b[0m"); // ciano
         break;
     
     case 'p':
-        // attron(COLOR_PAIR(5));  // Define a cor do texto
-        printf("  ");
-        // attroff(COLOR_PAIR(5));  // Desfaz a cor do texto
-        break;
-
-    case 'A':
-        // attron(COLOR_PAIR(6));  // Define a cor do texto
-        printf("  ");
-        // attroff(COLOR_PAIR(6));  // Desfaz a cor do texto
+        printf("\x1b[47m  \x1b[0m"); // branco
         break;
 
     default:
@@ -59,21 +40,14 @@ void grafic(char block){
 
 void linha(int tam){
     for (int i = 0; i < tam+2; i++) {
-        // attron(COLOR_PAIR(1));  // Define a cor do texto
-        printf("  ");
-        // attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
-        // refresh();
+        printf("\x1b[41m  \x1b[0m");
     }
     printf("\n");
-    // refresh();
 }
 
 void coluna(int tam){
 
-    // attron(COLOR_PAIR(1));  // Define a cor do texto
-    printf("  ");
-    // attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
-    // refresh();
+    printf("\x1b[41m  \x1b[0m");
 
 }
 
@@ -95,7 +69,6 @@ void showMap(TipoMap* map, bool movimento){
             else 
                 grafic(map->Matrix[i][j]);
             
-            // refresh();
 
 
             if (j == map->tamJ - 1) {
@@ -103,7 +76,6 @@ void showMap(TipoMap* map, bool movimento){
             }
         }
         printf("\n");
-        // refresh();
     }
 
     
@@ -120,17 +92,13 @@ void atributos(FILE *f, TipoMap* map){ //adiciona os atributos do map.h
 }
 
 void printAtributos(TipoMap* map){
-    printf("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);
-    // refresh();  
+    printf("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);  
 
-    printf("keys: %d\n", map->keys);
-    // refresh();  
+    printf("keys: %d\n", map->keys);  
 
-    printf("chestI: %d, chestJ: %d\n", map->chestI, map->chestJ);
-    // refresh(); 
+    printf("chestI: %d, chestJ: %d\n", map->chestI, map->chestJ); 
 
-    printf("\n");
-    // refresh();     
+    printf("\n");     
 
 }
 

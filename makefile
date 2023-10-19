@@ -4,7 +4,6 @@ all:
 	./exec
 	
 	
-	make clean
 
 clean:
 	rm -rf *.o ./exec
