@@ -10,7 +10,7 @@
 
 #if defined(__MINGW32__) || defined(_MSC_VER)
 #define limpar_input() fflush(stdin)
-#define limpar_tela() system("cls")
+#define limpar_tela() cls();
 #define pausar_tela() system("pause")
 #define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); getch(); cls(); refresh();
 
