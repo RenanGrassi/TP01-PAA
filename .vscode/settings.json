@@ -2,6 +2,12 @@
     "files.associations": {
         "solution.h": "c",
         "map.h": "c",
-        "terminal.h": "c"
+        "terminal.h": "c",
+        "*.tcc": "c",
+        "deque": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "system_error": "c"
     }
 }

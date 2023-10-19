@@ -63,8 +63,10 @@ void grafic(char block){
 
 
 void linha(int tam){
-    for (int i = 0; i < (tam*2)+2; i++) {
-        printw("-");
+    for (int i = 0; i < tam+2; i++) {
+        attron(COLOR_PAIR(1));  // Define a cor do texto
+        printw("  ");
+        attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
         refresh();
     }
     printw("\n");
@@ -73,15 +75,16 @@ void linha(int tam){
 
 void coluna(int tam){
 
-    printw("|");
+    attron(COLOR_PAIR(1));  // Define a cor do texto
+    printw("  ");
+    attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
     refresh();
 
 }
 
-void show_map(Map* map){
+void show_map(Map* map, bool movimento){
     int i, j;
     
-    // linha(map->tamJ);
     linha(map->tamJ);
 
     for(i = 0; i < map->tamI; i++) {
@@ -91,7 +94,12 @@ void show_map(Map* map){
             }
 
             // printw("%c ", map->Matrix[i][j]);
-            grafic(map->Matrix[i][j]);
+            if (movimento)
+                grafic(map->MatrixMovimento[i][j]);
+            
+            else 
+                grafic(map->Matrix[i][j]);
+            
             refresh();
 
 
@@ -103,6 +111,7 @@ void show_map(Map* map){
         refresh();
     }
 
+    
     linha(map->tamJ); 
 }
 
@@ -116,12 +125,18 @@ void atributos(FILE *f, Map *map){ //adiciona os atributos do map.h
 }
 
 void printAtributos(Map *map){
-    printf("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);
+    printw("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);
+    refresh();  
 
-    printf("keys: %d\n", map->keys);
+    printw("keys: %d\n", map->keys);
+    refresh();  
 
-    printf("chestI: %d, chestJ: %d\n", map->chestI, map->chestJ);
-    
+    printw("chestI: %d, chestJ: %d\n", map->chestI, map->chestJ);
+    refresh(); 
+
+    printw("\n");
+    refresh();     
+
 }
 
 Map* generate_map(FILE* f){
@@ -135,7 +150,6 @@ Map* generate_map(FILE* f){
 
     map->Matrix = (char**) calloc(sizeof(char*), map->tamI);
 
-
     for (int i = 0; i < map->tamI; i++) {
         map->Matrix[i] = (char*) calloc(sizeof(char), map->chestJ);
     }
@@ -147,7 +161,6 @@ Map* generate_map(FILE* f){
         while (j < map->tamJ) {
             fscanf(f, "%c", &read);
 
-            // se for um numero ou uma letra
 
             if (read >= 48 && read <= 122) {
                     // printw("%c", read);
@@ -159,5 +172,35 @@ Map* generate_map(FILE* f){
         j = 0;
     }
 
+    copyMap(map);
     return map;
+}
+
+void copyMap(Map* map) {
+    int i, j;
+
+    map->MatrixMovimento = (char**) malloc(map->tamI * sizeof(char*));
+
+    for (i = 0; i < map->tamI; i++) {
+        map->MatrixMovimento[i] = (char*) malloc(map->tamJ * sizeof(char));
+
+        for (j = 0; j < map->tamJ; j++) {
+
+            map->MatrixMovimento[i][j] = map->Matrix[i][j];
+            
+        }
+    }
+}
+
+void freeMap(Map* map){
+    int i;
+
+    for (i = 0; i < map->tamI; i++) {
+        free(map->Matrix[i]);
+        free(map->MatrixMovimento[i]);
+    }
+
+    free(map->Matrix);
+    free(map->MatrixMovimento);
+    free(map);
 }
