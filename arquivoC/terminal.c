@@ -13,9 +13,13 @@ void nc(){
     init_pair(1, 0, 9);
 
     init_pair(2, COLOR_GREEN, 0);
+
     init_pair(3, COLOR_YELLOW, 0);
+    
     init_pair(4, COLOR_CYAN, 0);
+    
     init_pair(5, COLOR_BLACK, COLOR_WHITE);
+    
     init_color(8, 647, 0, 0);
     init_pair(6, 0, 8);
 }
@@ -95,7 +99,7 @@ void identificarCaminhada(int* i, int* j, char ch){
 
 void chaminhar (Map* map){
 
-    printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n");
+    printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
     ncPausar();
 
     int i = 0, j = 0;
@@ -106,6 +110,10 @@ void chaminhar (Map* map){
 
         int ch = getch();  // Lê um caractere
         limpar_tela();
+
+        if (ch == '0'){
+            break;
+        }
 
         identificarCaminhada(&i, &j, ch);
         movimentacao(map, i, j);
@@ -174,22 +182,6 @@ void menu(){
         ncPausar();
     }
     
-    
-    // lerArquivo(&f);
-
-    // map = generate_map(f);
-    // fclose(f);
-
-    // printAtributos(map);
-    // printw("\n");
-    // refresh();
-
-    // show_map(map, false);
-    // ncPausar();
-
-    // chaminhar(map);
-
-    // freeMap(map);
 }
 
 void movimentacao(Map* map, int atualI, int atualJ){
