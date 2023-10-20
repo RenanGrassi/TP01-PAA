@@ -9,6 +9,10 @@ wind:
 	gcc ./headers/include.h	 ./headers/map.h	./headers/solution.h	./headers/terminal.h	 ./arquivoC/map.c	./arquivoC/solution.c	./arquivoC/terminal.c	   main.c	-lm  -o	 exec
 	./exec	
 
+main:
+	gcc		main.c	-lm  -o	 exec
+	./exec	
+
 clean:
 	rm -rf *.o ./exec
 	clear

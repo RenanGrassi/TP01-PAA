@@ -1,5 +1,41 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
+
+void lerArquivo(FILE** f){
+    
+    char file_path[250];
+    
+    do{
+        // printw("\nDigite o caminho do arquivo: \n");
+        printf("\nDigite o caminho do arquivo: \n");
+        // refresh();
+
+        strcpy(file_path, "./mapGenerator/");
+        //scanf("%s", file_path);
+        strcat(file_path, "map0.txt");
+
+        // printw("\nArquivo: %s\n", file_path);
+        printf("\nArquivo: %s\n", file_path);
+        // refresh();
+
+        *f = fopen(file_path, "r");
+
+        if(*f == NULL){
+            // printw("\nArquivo nao encontrado\n\n");
+            printf("\nArquivo nao encontrado\n\n");
+        // refresh();
+        }
+        else{
+            // printw("\nArquivo encontrado!!!\n\n");
+            printf("\nArquivo encontrado!!!\n\n");
+        // refresh();
+        }
+    }
+
+    while(*f == NULL);
+
+}
 
 #define MAX_ROWS 10
 #define MAX_COLS 10
@@ -57,12 +93,9 @@ bool findShortestPath(int x, int y, int keys_collected) {
 }
 
 int main() {
-    FILE *inputFile = fopen("C:\\Users\\matto\\.vscode\\TP01-PAA\\map0.txt", "r");
+    FILE *inputFile;
 
-    if (inputFile == NULL) {
-        perror("Erro ao abrir o arquivo");
-        return 1;
-    }
+    lerArquivo(&inputFile);
 
     fscanf(inputFile, "%d %d", &ROWS, &COLS);
     fscanf(inputFile, "%d", &keys_needed);
@@ -76,8 +109,10 @@ int main() {
 
     fclose(inputFile);
 
+
     if (findShortestPath(startX, startY, 0)) {
     for (int i = 0; i < pathLength; i++) {
+
         printf("[%d,%d]", shortestPath[i][0], shortestPath[i][1]);
         if (i < pathLength - 1) {
             printf(",");
