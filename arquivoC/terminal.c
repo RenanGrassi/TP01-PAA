@@ -106,12 +106,13 @@ void identificarCaminhada(int* i, int* j, char ch){
 void chaminhar (TipoMap* map){
 
     printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
-    ncPausar();
 
     printf("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
+    ncPausar();
 
     int i = 0, j = 0;
 
+    copyMap(map);
     movimentacao(map, i, j);
 
     while (true){
@@ -161,7 +162,7 @@ void menu(){
         opcao = getch();
         opcao -= 48;
 
-        scanf("%d", &opcao);
+        // scanf("%d", &opcao);
     
 
         limparTela();

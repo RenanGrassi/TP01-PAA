@@ -203,7 +203,6 @@ TipoMap* generate_map(FILE* f){
         j = 0;
     }
 
-    copyMap(map);
     return map;
 }
 
