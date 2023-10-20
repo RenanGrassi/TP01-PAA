@@ -2,53 +2,82 @@
 
 void teste(){
     printw("\n\nteste\n\n");
+    printf("\n\nteste\n\n");
     refresh();
 }
 
+//colocar printf sempre depois de um printw com a mesma mensagem
+// exemplo:
+        // printw("  ");
+        // printf("  ");
+
+#ifdef __linux__
+    void color(int n){
+        color();attron(COLOR_PAIR(n));  // Define a cor do te
+        xto
+    }
+
+    void exitColor(int n){
+        attroff(COLOR_PAIR(n));  // Desfaz a cor do texto
+    exitColor();}
+
+#else
+    void color(int n){    }
+
+    void exitColor(int n){    }
+
+#endif
 
 void grafic(char block){
     switch (block){
 
     case '0':
         printw("  ");
+        printf("  ");
         break;
 
     case '1':
-        attron(COLOR_PAIR(1));  // Define a cor do texto
+        color(1);
         printw("  ");
-        attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
+        printf("\033[41m  \033[0m");
+        exitColor(1);
         break;
 
     case 'C':
-        attron(COLOR_PAIR(2));  // Define a cor do texto
+        color(2);
         printw("0-");
-        attroff(COLOR_PAIR(2));  // Desfaz a cor do texto
+        printf("\033[32m0-\033[0m");
+        exitColor(2);
         break;
     
     case 'X':
-        attron(COLOR_PAIR(3));  // Define a cor do texto
+        color(3);
         printw("[]");
-        attroff(COLOR_PAIR(3));  // Desfaz a cor do texto
+        printf("\033[33m[]\033[0m");
+        exitColor(3);
         break;
     
     //desenahr um personagem
     case 'P':
 
-        attron(COLOR_PAIR(4));  // Define a cor do texto
+        color(4);
         printw("o-");
-        attroff(COLOR_PAIR(4));  // Desfaz a cor do texto
+        printf("\033[36mo-\033[0m");
+        exitColor(4);
         break;
     
     case 'p':
-        attron(COLOR_PAIR(5));  // Define a cor do texto
+        color(5);
         printw("  ");
-        attroff(COLOR_PAIR(5));  // Desfaz a cor do texto
+        printf("\033[47m  \033[0m");
+        exitColor(5);
         break;
 
     case 'A':
-        attron(COLOR_PAIR(6));  // Define a cor do texto
+        color(6);
         printw("  ");
-        attroff(COLOR_PAIR(6));  // Desfaz a cor do texto
+        printf("  ");
+        exitColor(6);
         break;
 
     default:
@@ -59,20 +88,23 @@ void grafic(char block){
 
 void linha(int tam){
     for (int i = 0; i < tam+2; i++) {
-        attron(COLOR_PAIR(1));  // Define a cor do texto
+        color(1);
         printw("  ");
-        attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
+        printf("\033[41m  \033[0m");
+        exitColor(1);
         refresh();
     }
     printw("\n");
+    printf("\n");
     refresh();
 }
 
 void coluna(int tam){
 
-    attron(COLOR_PAIR(1));  // Define a cor do texto
+    color(1);
     printw("  ");
-    attroff(COLOR_PAIR(1));  // Desfaz a cor do texto
+    printf("\033[41m  \033[0m");
+    exitColor(1);
     refresh();
 
 }
@@ -103,6 +135,7 @@ void showMap(TipoMap* map, bool movimento){
             }
         }
         printw("\n");
+        printf("\n");
         refresh();
     }
 
@@ -121,15 +154,19 @@ void atributos(FILE *f, TipoMap* map){ //adiciona os atributos do map.h
 
 void printAtributos(TipoMap* map){
     printw("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);
+    printf("tamI: %d, tamJ: %d\n", map->tamI, map->tamJ);
     refresh();  
 
     printw("keys: %d\n", map->keys);
+    printf("keys: %d\n", map->keys);
     refresh();  
 
     printw("chestI: %d, chestJ: %d\n", map->chestI, map->chestJ);
+    printf("chestI: %d, chestJ: %d\n", map->chestI, map->chestJ);
     refresh(); 
 
     printw("\n");
+    printf("\n");
     refresh();     
 
 }

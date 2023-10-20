@@ -1,28 +1,30 @@
 #include "../headers/terminal.h"
 
-void nc(){
+#ifdef __linux__
+    void nc(){
 
-    initscr();  // Inicializa a biblioteca ncurses
-    cbreak();   // Habilita entrada de teclado em modo "raw" (sem buffer)
-    noecho();   // Não exibe os caracteres digitados
-    keypad(stdscr, TRUE);  // Habilita teclas especiais (setas, F1, etc.)
-    
-    start_color();
+        initscr();  // Inicializa a biblioteca ncurses
+        cbreak();   // Habilita entrada de teclado em modo "raw" (sem buffer)
+        noecho();   // Não exibe os caracteres digitados
+        keypad(stdscr, TRUE);  // Habilita teclas especiais (setas, F1, etc.)
+        
+        start_color();
 
-    init_color(9, 339, 269, 219);
-    init_pair(1, 0, 9);
+        init_color(9, 339, 269, 219);
+        init_pair(1, 0, 9);
 
-    init_pair(2, COLOR_GREEN, 0);
+        init_pair(2, COLOR_GREEN, 0);
 
-    init_pair(3, COLOR_YELLOW, 0);
-    
-    init_pair(4, COLOR_CYAN, 0);
-    
-    init_pair(5, COLOR_BLACK, COLOR_WHITE);
-    
-    init_color(8, 647, 0, 0);
-    init_pair(6, 0, 8);
-}
+        init_pair(3, COLOR_YELLOW, 0);
+        
+        init_pair(4, COLOR_CYAN, 0);
+        
+        init_pair(5, COLOR_BLACK, COLOR_WHITE);
+        
+        init_color(8, 647, 0, 0);
+        init_pair(6, 0, 8);
+    }
+#endif
 
 void lerArquivo(FILE** f){
     
@@ -30,6 +32,7 @@ void lerArquivo(FILE** f){
     
     do{
         printw("\nDigite o caminho do arquivo: \n");
+        printf("\nDigite o caminho do arquivo: \n");
         refresh();
 
         strcpy(file_path, "./mapGenerator/");
@@ -37,16 +40,19 @@ void lerArquivo(FILE** f){
         strcat(file_path, "map0.txt");
 
         printw("\nArquivo: %s\n", file_path);
+        printf("\nArquivo: %s\n", file_path);
         refresh();
 
         *f = fopen(file_path, "r");
 
         if(*f == NULL){
             printw("\nArquivo nao encontrado\n\n");
+            printf("\nArquivo nao encontrado\n\n");
         refresh();
         }
         else{
             printw("\nArquivo encontrado!!!\n\n");
+            printf("\nArquivo encontrado!!!\n\n");
         refresh();
         }
     }
@@ -102,6 +108,8 @@ void chaminhar (TipoMap* map){
     printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
     ncPausar();
 
+    printf("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
+
     int i = 0, j = 0;
 
     movimentacao(map, i, j);
@@ -142,11 +150,15 @@ void menu(){
         // printar menu
         printw("\n1 - Ler arquivo e gerar mapa\n2 - Printar atributos do mapa\n3 - Printar mapa\n4 - Achar o menor caminho\n5 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
         refresh();
-        
-        opcao = getch();
-        opcao = opcao - 48;
 
-        printw("%d", opcao);
+        printf("\n1 - Ler arquivo e gerar mapa\n2 - Printar atributos do mapa\n3 - Printar mapa\n4 - Achar o menor caminho\n5 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
+        
+        // scanw("%d", &opcao);
+        // opcao = opcao - 48;
+
+        scanf("%d", &opcao);
+
+        // printw("%d", opcao);
         refresh();
 
         limparTela();
@@ -188,6 +200,7 @@ void movimentacao(TipoMap* map, int atualI, int atualJ){
     
     map->MatrixMovimento[atualI][atualJ] = 'P';
     printw("\n");
+    printf("\n");
     showMap(map, true);
 
     map->MatrixMovimento[atualI][atualJ] = 'p';
