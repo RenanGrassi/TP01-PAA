@@ -5,20 +5,31 @@
 #include <unistd.h>
 #include <math.h>
 #include <stdbool.h>
-#include <ncurses.h>
+
 
 
 #if defined(__MINGW32__) || defined(_MSC_VER)
-#define limpar_input() fflush(stdin)
-#define limpar_tela() system("cls")
-#define pausar_tela() system("pause")
-#define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); getch(); cls(); refresh();
+#include <conio.h>
+#define limparInput() fflush(stdin)
+#define limparTela() system("cls");
+#define pausarTela() system("pause");
+#define ncPausar() printf("\nPressione alguma tecla para continuar..."); limparInput(); getch(); limparTela();
+#define refresh() ;
+#define initscr() ;
+#define printw ;
+#define getch() _getch();
+#define nc() ;
+#define endwin();
+
 
 #else
 #include <stdio_ext.h>
-#define limpar_input() __fpurge(stdin)
-#define limpar_tela() clear();
-#define pausar_tela() printf("\nPress any key to continue..."); limpar_input(); getchar();
-#define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); getch(); clear(); refresh();
+#include <ncurses.h>
+#define limparInput() __fpurge(stdin)
+#define limparTela() clear();
+#define pausarTela() printf("\nPress any key to continue..."); limparInput(); getchar();
+#define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); limparInput(); getch(); clear(); refresh();
+#define printf ;
+#define scanf ;
 
 #endif
