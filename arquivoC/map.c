@@ -1,10 +1,5 @@
 #include "../headers/map.h"
 
-void teste(){
-    printw("\n\nteste\n\n");
-    printf("\n\nteste\n\n");
-    refresh();
-}
 
 #ifdef __linux__
     void color(int n){
@@ -232,20 +227,24 @@ void freeMap(TipoMap* map){
 
 void procurarCaminho(TipoMap* map){
 
-    int pathLength = 0;
-    // bool visited[10][10];
-    // fazer uma matiz de bool
-    bool** visited = (bool**) malloc(map->tamI * sizeof(bool*));
+    int* pathLength;
+    bool** visited;
+    visited = (bool**) malloc(map->tamI * sizeof(bool*));
+
+    for (int i = 0; i < map->tamI; i++) 
+        visited[i] = (bool*) malloc(map->tamJ * sizeof(bool));
+    
     int shortestPath[10 * 10][2];
+    *visited = 0;
 
     if (findShortestPath(0, 0, 0, map, visited, pathLength, shortestPath)) {
-        for (int i = 0; i < pathLength; i++) {
+        for (int i = 0; i < *pathLength; i++) {
             
             printf("[%d,%d]", shortestPath[i][0], shortestPath[i][1]);
             printw("[%d,%d]", shortestPath[i][0], shortestPath[i][1]);
             refresh();
 
-            if (i < pathLength - 1)
+            if (i < *pathLength - 1)
                 printf(",");
                 printw(",");
                 refresh();

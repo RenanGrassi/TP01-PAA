@@ -37,9 +37,8 @@ typedef struct TipoMap{
 
 // } TipoListaPosicao;
 
+void teste();
 
 bool canMove(int x, int y, int ROWS, int COLS, char parede, bool** visited);
 
-bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** visited, int pathLength, int shortestPath[][2]);
-
-// bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve);
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** visited, int* pathLength, int shortestPath[][2]);

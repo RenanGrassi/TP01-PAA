@@ -8,5 +8,4 @@ void printAtributos(TipoMap* map);
 TipoMap* generate_map(FILE* f);
 void copyMap(TipoMap* map);
 void freeMap(TipoMap* map);
-void teste();
 void procurarCaminho(TipoMap* map);

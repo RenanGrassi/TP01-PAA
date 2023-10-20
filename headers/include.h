@@ -6,8 +6,6 @@
 #include <math.h>
 #include <stdbool.h>
 
-
-
 #if defined(__MINGW32__) || defined(_MSC_VER)
 #include <conio.h>
 #define limparInput() fflush(stdin)
