@@ -30,5 +30,6 @@
 #define pausarTela() printf("\nPress any key to continue..."); limparInput(); getchar();
 #define ncPausar() printw("\nPressione alguma tecla para continuar..."); refresh(); limparInput(); getch(); clear(); refresh();
 #define printf ;
+#define scanf ;
 
 #endif

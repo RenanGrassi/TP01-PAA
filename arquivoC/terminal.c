@@ -134,6 +134,7 @@ void menu(){
     FILE* f;
     TipoMap* map;
     int opcao = 1;
+    int mapCriado = 0;
 
     //fazer um swtich case com as opçoes do menu
     //1 - ler arquivo / gerar mapa
@@ -153,20 +154,23 @@ void menu(){
 
         printf("\n1 - Ler arquivo e gerar mapa\n2 - Printar atributos do mapa\n3 - Printar mapa\n4 - Achar o menor caminho\n5 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
         
+
         // scanw("%d", &opcao);
-        // opcao = opcao - 48;
+        
+
+        opcao = getch();
+        opcao -= 48;
 
         scanf("%d", &opcao);
-
-        // printw("%d", opcao);
-        refresh();
+    
 
         limparTela();
 
         switch (opcao){
 
             case 0:
-                freeMap(map);
+                if (mapCriado)
+                    freeMap(map);
                 break;
 
             case 1:
@@ -174,6 +178,7 @@ void menu(){
 
                 map = generate_map(f);
                 fclose(f);
+                mapCriado = 1;
                 break;
             
             case 2:

@@ -13,13 +13,12 @@ void teste(){
 
 #ifdef __linux__
     void color(int n){
-        color();attron(COLOR_PAIR(n));  // Define a cor do te
-        xto
+        attron(COLOR_PAIR(n));  // Define a cor do te
     }
 
     void exitColor(int n){
         attroff(COLOR_PAIR(n));  // Desfaz a cor do texto
-    exitColor();}
+    }
 
 #else
     void color(int n){    }
