@@ -72,12 +72,12 @@ void grafic(char block){
         exitColor(5);
         break;
 
-    case 'A':
-        color(6);
-        printw("  ");
-        printf("  ");
-        exitColor(6);
-        break;
+    // case 'A':
+    //     color(6);
+    //     printw("  ");
+    //     printf("  ");
+    //     exitColor(6);
+    //     break;
 
     default:
         break;
