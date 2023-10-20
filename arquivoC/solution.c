@@ -21,6 +21,7 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** vis
         *pathLength = 0;
         return true;
     }
+
     visited[x][y] = true;
     shortestPath[(*pathLength)][0] = x;
     shortestPath[(*pathLength)][1] = y;
