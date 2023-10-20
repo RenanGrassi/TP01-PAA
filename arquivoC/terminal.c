@@ -112,11 +112,7 @@ void chaminhar (TipoMap* map){
 
     int i = 0, j = 0;
 
-    bool** visited;
-    visited = (bool**) malloc(map->tamI * sizeof(bool*));
-
-    for (int i = 0; i < map->tamI; i++) 
-        visited[i] = (bool*) malloc(map->tamJ * sizeof(bool));
+    int** visited;
 
     copyMap(map);
     movimentacao(map, i, j, visited);
@@ -204,9 +200,8 @@ void menu(){
     
 }
 
-void movimentacao(TipoMap* map, int atualI, int atualJ, bool** visited){
-    
-    if (canMove(atualI, atualJ, map->tamI, map->tamJ, map->Matrix[atualI][atualJ], visited)){
+void movimentacao(TipoMap* map, int atualI, int atualJ, int** visited){
+    if (isSafe(map, atualI, atualJ, visited)){
         map->MatrixMovimento[atualI][atualJ] = 'P';
         printw("\n");
         printf("\n");

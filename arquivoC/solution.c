@@ -15,7 +15,7 @@ bool canMove(int x, int y, int ROWS, int COLS, char parede, bool** visited) {
     return x >= 0 && x < ROWS && y >= 0 && y < COLS && parede != '1' && !visited[x][y];
 }
 
-bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** visited, int* pathLength, int shortestPath[][2]) {
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** visited, int* pathLength, int shortestPath[][2]) {
 
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
         *pathLength = 0;
@@ -37,7 +37,8 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** vis
         printf("\nnewX = %d\nnewY = %d", newX, newY);
         printf("\n\n%c\n\n", map->Matrix[newX][newY]);
 
-        if (canMove(newX, newY, map->tamI, map->tamJ, map->Matrix[newX][newY], visited)) {
+        // if (canMove(newX, newY, map->tamI, map->tamJ, map->Matrix[newX][newY], visited)) {
+            if (isSafe(map, x, y, visited)) {
             
             if (map->Matrix[newX][newY] == 'C') {
                 keys_collected++;
@@ -58,10 +59,12 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** vis
     return false;
 }
 
-bool isSafe(TipoMap *m, int i, int j, int **visitados); {
-    if(i >= 0 && i < m->linhas && j >= 0 && j < m->colunas && m->corpo[i][j] != '1' && visitados[i][j] != 1){
-        return true
-    }else{
+bool isSafe(TipoMap *map, int i, int j, int **visitados) {
+    
+    if(i >= 0 && i < map->tamI && j >= 0 && j < map->tamJ && map->Matrix[i][j] != '1' && visitados[i][j] != 1){
+        return true;
+    }
+    else{
         return false;
     }
 }

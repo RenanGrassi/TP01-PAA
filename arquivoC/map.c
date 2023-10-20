@@ -228,14 +228,9 @@ void freeMap(TipoMap* map){
 void procurarCaminho(TipoMap* map){
 
     int* pathLength;
-    bool** visited;
-    visited = (bool**) malloc(map->tamI * sizeof(bool*));
-
-    for (int i = 0; i < map->tamI; i++) 
-        visited[i] = (bool*) malloc(map->tamJ * sizeof(bool));
+    int** visited;
     
     int shortestPath[10 * 10][2];
-    *visited = 0;
 
     if (findShortestPath(0, 0, 0, map, visited, pathLength, shortestPath)) {
         for (int i = 0; i < *pathLength; i++) {
