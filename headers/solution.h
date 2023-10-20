@@ -8,34 +8,23 @@ typedef struct TipoMap{
     char **MatrixMovimento;
 }TipoMap;
 
-// typedef struct Posicao PPosicao;
-// typedef struct Posicao{
-    
-//     union {
+typedef struct Posicao PPosicao;
+typedef struct Posicao{
 
-//         struct{
-//             PPosicao posicaoFinal;
-//         } primeraPosicao;
+        int linha;
+        int coluna;
+        PPosicao proxPosicao;
 
-//         struct {
-//             int tam;
-//         } ultimaPosicao;
-
-//         int linha;
-//         int coluna;
-//         PPosicao proxPosicao;
-//     };
-
-// } TipoPosicao;
+} TipoPosicao;
 
 
-// typedef struct ListaPosicao{
+typedef struct LPosicao{
 
-//     PPosicao* primeiro;
-//     PPosicao* ultimo;
-//     int tamanho;
+    PPosicao caminho;
+    PPosicao proxCaminho;
+    int tamanho;
 
-// } TipoListaPosicao;
+} LPosicao;
 
 void teste();
 

@@ -112,8 +112,15 @@ void chaminhar (TipoMap* map){
 
     int i = 0, j = 0;
 
+    bool** visited;
+    visited = (bool**) malloc(map->tamI * sizeof(bool*));
+
+    for (int i = 0; i < map->tamI; i++) 
+        visited[i] = (bool*) malloc(map->tamJ * sizeof(bool));
+
     copyMap(map);
-    movimentacao(map, i, j);
+    movimentacao(map, i, j, visited);
+    
 
     while (true){
 
@@ -125,7 +132,7 @@ void chaminhar (TipoMap* map){
         }
 
         identificarCaminhada(&i, &j, ch);
-        movimentacao(map, i, j);
+        movimentacao(map, i, j, visited);
     }
 
 }
@@ -197,14 +204,15 @@ void menu(){
     
 }
 
-void movimentacao(TipoMap* map, int atualI, int atualJ){
+void movimentacao(TipoMap* map, int atualI, int atualJ, bool** visited){
     
-    map->MatrixMovimento[atualI][atualJ] = 'P';
-    printw("\n");
-    printf("\n");
-    showMap(map, true);
+    if (canMove(atualI, atualJ, map->tamI, map->tamJ, map->Matrix[atualI][atualJ], visited)){
+        map->MatrixMovimento[atualI][atualJ] = 'P';
+        printw("\n");
+        printf("\n");
+        showMap(map, true);
 
-    map->MatrixMovimento[atualI][atualJ] = 'p';
-    
+        map->MatrixMovimento[atualI][atualJ] = 'p';
+    }
 }
 
