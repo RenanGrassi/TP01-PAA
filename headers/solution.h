@@ -42,3 +42,7 @@ void teste();
 bool canMove(int x, int y, int ROWS, int COLS, char parede, bool** visited);
 
 bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** visited, int* pathLength, int shortestPath[][2]);
+
+//bool findShortestPathUtil(int x, int y, int keys_collected, TipoMap* map, bool** visited, int* pathLength, int shortestPath[][2]);
+
+bool isSafe(TipoMap *m, int i, int j, int **visitados);

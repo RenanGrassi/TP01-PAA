@@ -56,3 +56,11 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** vis
     visited[x][y] = false;
     return false;
 }
+
+bool isSafe(TipoMap *m, int i, int j, int **visitados); {
+    if(i >= 0 && i < m->linhas && j >= 0 && j < m->colunas && m->corpo[i][j] != '1' && visitados[i][j] != 1){
+        return true
+    }else{
+        return false;
+    }
+}
