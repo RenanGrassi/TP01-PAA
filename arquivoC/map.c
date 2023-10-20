@@ -6,11 +6,6 @@ void teste(){
     refresh();
 }
 
-//colocar printf sempre depois de um printw com a mesma mensagem
-// exemplo:
-        // printw("  ");
-        // printf("  ");
-
 #ifdef __linux__
     void color(int n){
         attron(COLOR_PAIR(n));  // Define a cor do te
@@ -233,4 +228,31 @@ void freeMap(TipoMap* map){
     free(map->Matrix);
     free(map->MatrixMovimento);
     free(map);
+}
+
+void procurarCaminho(TipoMap* map){
+
+    int pathLength = 0;
+    // bool visited[10][10];
+    // fazer uma matiz de bool
+    bool** visited = (bool**) malloc(map->tamI * sizeof(bool*));
+    int shortestPath[10 * 10][2];
+
+    if (findShortestPath(0, 0, 0, map, visited, pathLength, shortestPath)) {
+        for (int i = 0; i < pathLength; i++) {
+            
+            printf("[%d,%d]", shortestPath[i][0], shortestPath[i][1]);
+            printw("[%d,%d]", shortestPath[i][0], shortestPath[i][1]);
+            refresh();
+
+            if (i < pathLength - 1)
+                printf(",");
+                printw(",");
+                refresh();
+        }
+    } 
+
+    else 
+        printf("Indiana Jones nao consegue abrir o bau :(");
+        
 }

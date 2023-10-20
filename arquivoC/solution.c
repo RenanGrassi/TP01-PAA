@@ -1,54 +1,44 @@
 #include "../headers/solution.h"
 
-// bool isSafe(char** map, int maxLinha, int maxColuna, int i, int j){
-//     if(i >= 0 && i < maxLinha && j >= 0 && j < maxColuna && map[i][j] == 0)
-//         return true;
-//     return false;
-// }
+bool canMove(int x, int y, int ROWS, int COLS, char parede, bool** visited) {
 
-// bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve){ // tem que salvar o menor caminho e mandar dps
-//     // if (x, y is goal) return true
-//     if (i == maxLinha - 1 && j == maxColuna - 1 && map[i][j] == 1) {
-//         resolve[i][j] = 1;
-//         return true;
-//     }
-//     // Check if maze[i][j] is valid
-//     if (isSafe(map, maxLinha, maxColuna, i, j) == true) { /// verifica se realmente é seguro
-//         // Check if the current block is alreadj part of
-//         // resolveution path.// bool solveMaze(int maze[N][N])
-// // {
-// //     int sol[N][N] = { { 0, 0, 0, 0 },
-// //                       { 0, 0, 0, 0 },
-// //                       { 0, 0, 0, 0 },
-// //                       { 0, 0, 0, 0 } };
-// //     if (solveMazeUtil(maze, 0, 0, sol) == false) {
-// //         printf("Solution doesn't exist");
-// //         return false;
-// //     }
-// //     printSolution(sol);
-// //     return true;
-// // }
-//         if (resolve[i][j] == 1)
-//             return false;
-//         // mark i, j as part of resolveution path
-//         resolve[i][j] = 1;
-//         /* Move forward in i direction */
-//         if (solveMap(map, maxLinha, maxColuna, i + 1, j, resolve) == true)
-//             return true;
-//         // If moving in i direction doesn't give solution
-//         // then Move down in j direction
-//         if (solveMap(map, maxLinha, maxColuna,  i, j + 1, resolve) == true)
-//             return true;
+    return x >= 0 && x < ROWS && y >= 0 && y < COLS && parede != '1' && !visited[x][y];
+}
 
-//         if (solveMap(map, maxLinha, maxColuna, i - 1, j, resolve) == true)
-//             return true;
-        
-//         if (solveMap(map, maxLinha, maxColuna, i, j - 1, resolve) == true)
-//             return true;
-//         // If none of the above movements work then
-//         // BACKTRACK: unmark i, j as part of solution path
-//         resolve[i][j] = 0;
-//         return false;
-//     }
-//     return false;
-// }
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** visited, int pathLength, int shortestPath[][2]) {
+
+    if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
+        pathLength = 0;
+        return true;
+    }
+
+    visited[x][y] = true;
+    shortestPath[pathLength][0] = x;
+    shortestPath[pathLength][1] = y;
+    pathLength++;
+
+    int dx[] = {0, 0, 1, -1};
+    int dy[] = {1, -1, 0, 0};
+    for (int i = 0; i < 4; i++) {
+        int newX = x + dx[i];
+        int newY = y + dy[i];
+
+        if (canMove(newX, newY, map->tamI, map->tamJ, map->Matrix[newX][newY], visited)) {
+            if (map->Matrix[newX][newY] == 'C') {
+                keys_collected++;
+            }
+
+            if (findShortestPath(newX, newY, keys_collected, map, visited, pathLength, shortestPath)) {
+                return true;
+            }
+
+            if (map->Matrix[newX][newY] == 'C') {
+                keys_collected--;
+            }
+        }
+    }
+
+    pathLength--;
+    visited[x][y] = false;
+    return false;
+}

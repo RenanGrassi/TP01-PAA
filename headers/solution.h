@@ -1,5 +1,13 @@
 #include "include.h"
 
+typedef struct TipoMap{
+    unsigned int tamI, tamJ;
+    unsigned int keys;
+    unsigned int chestI, chestJ;
+    char **Matrix;
+    char **MatrixMovimento;
+}TipoMap;
+
 // typedef struct Posicao PPosicao;
 // typedef struct Posicao{
     
@@ -30,21 +38,8 @@
 // } TipoListaPosicao;
 
 
+bool canMove(int x, int y, int ROWS, int COLS, char parede, bool** visited);
 
-bool isSafe(char** map, int maxLinha, int maxColuna, int i, int j);
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, bool** visited, int pathLength, int shortestPath[][2]);
 
-// bool solveMaze(int maze[N][N])
-// {
-//     int sol[N][N] = { { 0, 0, 0, 0 },
-//                       { 0, 0, 0, 0 },
-//                       { 0, 0, 0, 0 },
-//                       { 0, 0, 0, 0 } };
-//     if (solveMazeUtil(maze, 0, 0, sol) == false) {
-//         printf("Solution doesn't exist");
-//         return false;
-//     }
-//     printSolution(sol);
-//     return true;
-// }
- 
-bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve);
+// bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve);

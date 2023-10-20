@@ -145,8 +145,6 @@ void menu(){
     //5 - Tentar achar o menor caminho sozinho
     //0 - sair
 
-    //faça o menu que pedi acima
-
     while (opcao){
 
         // printar menu
@@ -155,15 +153,8 @@ void menu(){
 
         printf("\n1 - Ler arquivo e gerar mapa\n2 - Printar atributos do mapa\n3 - Printar mapa\n4 - Achar o menor caminho\n5 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
         
-
-        // scanw("%d", &opcao);
-        
-
         opcao = getch();
         opcao -= 48;
-
-        // scanf("%d", &opcao);
-    
 
         limparTela();
 
@@ -188,6 +179,10 @@ void menu(){
 
             case 3:
                 showMap(map, false);
+                break;
+
+            case 4:
+                procurarCaminho(map);
                 break;
             
             case 5:
