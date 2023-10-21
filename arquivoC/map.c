@@ -74,7 +74,6 @@ void grafic(char block){
     }
 }
 
-
 void linha(int tam){
     for (int i = 0; i < tam+2; i++) {
         color(1);
@@ -223,30 +222,4 @@ void freeMap(TipoMap* map){
     free(map->Matrix);
     free(map->MatrixMovimento);
     free(map);
-}
-
-void procurarCaminho(TipoMap* map){
-
-    int* pathLength;
-    int** visited;
-    
-    int shortestPath[10 * 10][2];
-
-    if (findShortestPath(0, 0, 0, map, visited, pathLength, shortestPath)) {
-        for (int i = 0; i < *pathLength; i++) {
-            
-            printf("[%d,%d]", shortestPath[i][0], shortestPath[i][1]);
-            printw("[%d,%d]", shortestPath[i][0], shortestPath[i][1]);
-            refresh();
-
-            if (i < *pathLength - 1)
-                printf(",");
-                printw(",");
-                refresh();
-        }
-    } 
-
-    else 
-        printf("Indiana Jones nao consegue abrir o bau :(");
-        
 }

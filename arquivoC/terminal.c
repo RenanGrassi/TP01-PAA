@@ -103,40 +103,41 @@ void identificarCaminhada(int* i, int* j, char ch){
     }
 }
 
-void chaminhar (TipoMap* map){
+// void chaminhar (TipoMap* map){
 
-    printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
+//     printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
 
-    printf("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
-    ncPausar();
+//     printf("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
+//     ncPausar();
 
-    int i = 0, j = 0;
+//     int i = 0, j = 0;
 
-    int** visited;
+//     int** visited;
 
-    copyMap(map);
-    movimentacao(map, i, j, visited);
+//     copyMap(map);
+//     movimentacao(map, i, j, visited);
     
 
-    while (true){
+//     while (true){
 
-        int ch = getch();  // Lê um caractere
-        limparTela();
+//         int ch = getch();  // Lê um caractere
+//         limparTela();
 
-        if (ch == '0'){
-            break;
-        }
+//         if (ch == '0'){
+//             break;
+//         }
 
-        identificarCaminhada(&i, &j, ch);
-        movimentacao(map, i, j, visited);
-    }
+//         identificarCaminhada(&i, &j, ch);
+//         movimentacao(map, i, j, visited);
+//     }
 
-}
+// }
 
 void menu(){
 
     FILE* f;
     TipoMap* map;
+    LPosicao* caminhosPossiveis;
     int opcao = 1;
     int mapCriado = 0;
 
@@ -185,11 +186,11 @@ void menu(){
                 break;
 
             case 4:
-                procurarCaminho(map);
+                procurarCaminho(map, caminhosPossiveis);
                 break;
             
             case 5:
-                chaminhar(map);
+                // chaminhar(map);
                 break;
                     
             default:
@@ -199,15 +200,3 @@ void menu(){
     }
     
 }
-
-void movimentacao(TipoMap* map, int atualI, int atualJ, int** visited){
-    if (isSafe(map, atualI, atualJ, visited)){
-        map->MatrixMovimento[atualI][atualJ] = 'P';
-        printw("\n");
-        printf("\n");
-        showMap(map, true);
-
-        map->MatrixMovimento[atualI][atualJ] = 'p';
-    }
-}
-

@@ -1,19 +1,10 @@
-#include "include.h"
+#include "map.h"
 
-typedef struct TipoMap{
-    unsigned int tamI, tamJ;
-    unsigned int keys;
-    unsigned int chestI, chestJ;
-    char **Matrix;
-    char **MatrixMovimento;
-}TipoMap;
 
 typedef struct Posicao* PPosicao;
 typedef struct Posicao{
 
-        int linha;
-        int coluna;
-        PPosicao proxPosicao;
+        int** vetCaminho;
 
 } TipoPosicao;
 
@@ -26,12 +17,12 @@ typedef struct LPosicao{
 
 } LPosicao;
 
-void teste();
+void teste();  // so para testar onde esta o erro
 
-bool canMove(int x, int y, int ROWS, int COLS, char parede, bool** visited);
+bool checkingRoute(TipoMap *m, int x, int y);
 
-bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** visited, int* pathLength, int shortestPath[][2]);
+void movimentacao(TipoMap* map, int atualI, int atualJ);
 
-//bool findShortestPathUtil(int x, int y, int keys_collected, TipoMap* map, bool** visited, int* pathLength, int shortestPath[][2]);
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int* tam);
 
-bool isSafe(TipoMap *m, int i, int j, int **visitados);
+void procurarCaminho(TipoMap* map,  LPosicao* lista);  // procurar os caminhos possiveis
