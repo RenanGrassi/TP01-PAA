@@ -9,6 +9,7 @@ typedef struct Caminho{
 
 } Caminho;
 
+
 typedef struct TipoMap{
     unsigned int tamI, tamJ;
     unsigned int keys;

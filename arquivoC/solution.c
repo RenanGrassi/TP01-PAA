@@ -58,7 +58,7 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
         map->MatrixMovimento[atualI][atualJ] = map->Matrix[atualI][atualJ];
 }
 
-bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam) {
+/*bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam) {
     
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
         // se isso acontecer, significa que o bau foi encontrado (ponteiro)
@@ -119,7 +119,27 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
     //     return true;
 
     return false;
-}
+}*/
+
+//Funcao revivida do Ataide
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam, PCaminho* shortestPath) {
+    if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
+        // Confere se o caminho atual é menor que o caminho mais curto ja encontrado
+        if (tam < (*shortestPath)->tamanho) {
+            // Atualiza o caminho mais curto
+            PCaminho novoCaminho = malloc(sizeof(Caminho));
+            novoCaminho->tamanho = tam;
+            novoCaminho->vetCaminho = (int**)malloc(sizeof(int*) * tam);
+            for (int i = 0; i < tam; i++) {
+                novoCaminho->vetCaminho[i] = (int*)malloc(sizeof(int) * 2);
+                novoCaminho->vetCaminho[i][0] = routes[i][0];
+                novoCaminho->vetCaminho[i][1] = routes[i][1];
+            }
+            novoCaminho->proxCaminho = *shortestPath;
+            *shortestPath = novoCaminho;
+        }
+        return true;
+    }
 
 void procurarCaminho(TipoMap* map){
 
