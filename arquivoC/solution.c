@@ -122,7 +122,7 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
 }*/
 
 //Funcao revivida do Ataide
-//aa
+//aaBB
 bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam, PCaminho* shortestPath) {
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
         // Confere se o caminho atual é menor que o caminho mais curto ja encontrado
