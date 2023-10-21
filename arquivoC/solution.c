@@ -33,12 +33,19 @@ bool checkingRoute(TipoMap *map, int i, int j) {
     }
 }
 
-void movimentacaoShow(TipoMap* map, int atualI, int atualJ){
-        map->MatrixMovimento[atualI][atualJ] = 'P';
-        printw("\n");
-        printf("\n");
-        showMap(map, true);
-        map->MatrixMovimento[atualI][atualJ] = 'p';
+void movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
+
+    if(map->MatrixMovimento[atualI][atualJ] == 'C')
+        (*keys)++;
+
+    map->MatrixMovimento[atualI][atualJ] = 'P';
+    printw("\n");
+    printf("\n");
+    showMap(map, true);
+    printw("\n Indiana Jones pegou %d chaves\n", *keys);
+    printf("\n Indiana Jones pegou %d chaves\n", *keys);
+    refresh();
+    map->MatrixMovimento[atualI][atualJ] = 'p';
 }
 
 void movimentacao(TipoMap* map, int atualI, int atualJ){
@@ -54,6 +61,7 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
 
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
         // *tam = 0;
+        
         return true;
     }
 
@@ -113,19 +121,25 @@ void procurarCaminho(TipoMap* map, LPosicao* lista){
 
         copyMap(map);
         int cont = 0;
+        int keys = 0;
+
         for (int i = 0; i < *tam; i++) {
             cont++;
             ncPausar();     
-            movimentacaoShow(map, routes[i][0], routes[i][1]);       
+            movimentacaoShow(map, routes[i][0], routes[i][1], &keys);     
+            refresh(); 
         }
         printw("Indiana Jones consegue abrir o bau :)\n");
+        printf("Indiana Jones consegue abrir o bau :)\n");
+        refresh();
     } 
 
     else {
         printf("Indiana Jones nao consegue abrir o bau :(\n");
         printw("Indiana Jones nao consegue abrir o bau :(\n");
-        refresh();
+        
     
     }
+    refresh();
 }
 

@@ -21,7 +21,7 @@ void teste();  // so para testar onde esta o erro
 
 bool checkingRoute(TipoMap *m, int x, int y);
 
-void movimentacaoShow(TipoMap* map, int atualI, int atualJ);
+void movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys);
 
 void movimentacao(TipoMap* map, int atualI, int atualJ);
 

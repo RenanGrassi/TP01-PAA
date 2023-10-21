@@ -18,7 +18,7 @@
 #define getch() _getch();
 #define nc() ;
 #define endwin();
-
+#define scanw ;
 
 #else
 #include <stdio_ext.h>

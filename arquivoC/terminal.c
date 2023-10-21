@@ -29,15 +29,22 @@
 void lerArquivo(FILE** f){
     
     char file_path[250];
+    char ch[2];
     
     do{
-        printw("\nDigite o caminho do arquivo: \n");
-        printf("\nDigite o caminho do arquivo: \n");
+        printw("\nDigite o caminho do arquivo: (apenas o numero do mapa)\n");
+        printf("\nDigite o caminho do arquivo: (apenas o numero do mapa)\n");
         refresh();
 
         strcpy(file_path, "./mapGenerator/");
         //scanf("%s", file_path);
-        strcat(file_path, "map0.txt");
+        strcat(file_path, "map");
+
+        scanw("%s", ch);
+        scanf("%s", ch);
+        
+        strcat(file_path, ch);
+        strcat(file_path, ".txt");
 
         printw("\nArquivo: %s\n", file_path);
         printf("\nArquivo: %s\n", file_path);
@@ -173,7 +180,9 @@ void menu(){
                 exit(0);
 
             case 1:
+                endwin();
                 lerArquivo(&f);
+                nc();
 
                 map = generate_map(f);
                 fclose(f);
@@ -189,7 +198,7 @@ void menu(){
                 break;
 
             case 4:
-                procurarCaminho(map, caminhosPossiveis);
+                procurarCaminho(map, caminhosPossiveis);// fazer outro menu para escolher a forma de mostrar o caminho
                 break;
             
             case 5:
