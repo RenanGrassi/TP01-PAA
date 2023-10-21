@@ -193,7 +193,7 @@ void menu(){
                 break;
             
             case 5:
-                // chaminhar(map);
+                //chaminhar(map);
                 break;
                     
             default:

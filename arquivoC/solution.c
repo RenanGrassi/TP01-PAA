@@ -6,16 +6,8 @@ void teste(){
     refresh();
 }
 
-// bool canMove(int x, int y, int ROWS, int COLS, char parede, bool** visited) {
-//     printf("\nnewX = %d\nnewY = %d\n", x, y);
-//     // printf("\n\n%c\n\n", map->Matrix[newX][newY]);
-//     if (x >= 0 && x < ROWS && y >= 0 && y < COLS && parede != '1' && !visited[x][y])
-//         printf("foi\n");
-//     printf("\n%d\n", visited[x][y]);
-//     return x >= 0 && x < ROWS && y >= 0 && y < COLS && parede != '1' && !visited[x][y];
-// }
 
-void mostrarSeguencia(int routes[][2], int *tam){
+void mostrarSequencia(int routes[][2], int *tam){
 
     for (int i = 0; i < *tam; i++) {
 
@@ -33,8 +25,6 @@ void mostrarSeguencia(int routes[][2], int *tam){
 bool checkingRoute(TipoMap *map, int i, int j) {
 
     if(i >= 0 && i < map->tamI && j >= 0 && j < map->tamJ && map->MatrixMovimento[i][j] != '1' && map->MatrixMovimento[i][j] != 'p'){
-        // showMap(map, true);
-        // ncPausar();
 
         return true;
     }
@@ -53,18 +43,11 @@ void movimentacaoShow(TipoMap* map, int atualI, int atualJ){
 
 void movimentacao(TipoMap* map, int atualI, int atualJ){
         map->MatrixMovimento[atualI][atualJ] = 'P';
-        // printw("\n");
-        // printf("\n");
-        // showMap(map, true);
         map->MatrixMovimento[atualI][atualJ] = 'p';
 }
 
 void reMovimentacao(TipoMap* map, int atualI, int atualJ){
         map->MatrixMovimento[atualI][atualJ] = map->Matrix[atualI][atualJ];
-        // printw("\n");
-        // printf("\n");
-        // showMap(map, true);
-        // map->MatrixMovimento[atualI][atualJ] = 'P';
 }
 
 bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int* tam) {
@@ -82,8 +65,8 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
 
     
 
-    int dx[] = {0, 1, 0, -1};
-    int dy[] = {1, 0, -1, 0};  // seguencia de movimentos direta, baixo, esquerda, cima
+    int dx[] = {0, -1, 0, 1};
+    int dy[] = {-1, 0, 1, 0};  // seguencia de movimentos cima, esquerda, baixo, direita
 
     for (int i = 0; i < 4; i++) { // testa a sequencia
         int newX = x + dx[i];
@@ -119,7 +102,8 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
 void procurarCaminho(TipoMap* map, LPosicao* lista){
 
     int routes [map->tamI * map->tamJ][2];
-    int* tam;
+    int* tam = (int*)malloc(sizeof(int));
+    *tam = 0;
     copyMap(map);
 
     *tam = 0;
