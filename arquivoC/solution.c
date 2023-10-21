@@ -61,16 +61,28 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
 bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam) {
     
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
-        // se isso acontecer, significa que o bau foi encontrado (ponteiro)
-        map->caminhosPossiveis->proxCaminho = malloc(sizeof(Caminho));
-        map->caminhosPossiveis->proxCaminho->tamanho = tam;
-        map->caminhosPossiveis->proxCaminho->vetCaminho = (int**) malloc(sizeof(int*) * (tam));
+        // onde eu coloco o caminho percorrido
+        while(map->caminhosPossiveis->proxCaminho != NULL){
+            if(map->caminhosPossiveis->proxCaminho->tamanho > tam || map->caminhosPossiveis->proxCaminho == NULL){
 
-        for (int i = 0; i < tam; i++) {
-            map->caminhosPossiveis->proxCaminho->vetCaminho[i] = (int*) malloc(sizeof(int) * 2);
-            map->caminhosPossiveis->proxCaminho->vetCaminho[i][0] = routes[i][0];
-            map->caminhosPossiveis->proxCaminho->vetCaminho[i][1] = routes[i][1];
+                PCaminho prox = map->caminhosPossiveis->proxCaminho;
+
+                map->caminhosPossiveis->proxCaminho = malloc(sizeof(Caminho));
+                map->caminhosPossiveis->proxCaminho->tamanho = tam;
+                map->caminhosPossiveis->proxCaminho->vetCaminho = (int**) malloc(sizeof(int*) * (tam));
+
+                for (int i = 0; i < tam; i++) {
+                    map->caminhosPossiveis->proxCaminho->vetCaminho[i] = (int*) malloc(sizeof(int) * 2);
+                    map->caminhosPossiveis->proxCaminho->vetCaminho[i][0] = routes[i][0];
+                    map->caminhosPossiveis->proxCaminho->vetCaminho[i][1] = routes[i][1];
+                }
+
+                map->caminhosPossiveis->proxCaminho->proxCaminho = prox;
+            }
+
+            map->caminhosPossiveis = map->caminhosPossiveis->proxCaminho;
         }
+        return true;
     }
 
     movimentacao(map, x, y);
@@ -114,9 +126,6 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
     routes[(tam)][0] = 0;
     routes[(tam)][1] = 0;
     (tam)--;
-
-    // if (aquilo aconteceu)
-    //     return true;
 
     return false;
 }
