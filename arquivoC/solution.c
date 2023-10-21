@@ -6,11 +6,6 @@ void teste(){
     refresh();
 }
 
-typedef struct {
-    int x;
-    int y;
-} Posicao; //Tentativa de corrigir.
-
 
 void mostrarSequencia(int routes[][2], int *tam){
 
@@ -63,38 +58,10 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
         map->MatrixMovimento[atualI][atualJ] = map->Matrix[atualI][atualJ];
 }
 
-
 bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam) {
-
-    int dx[] = {0, -1, 0, 1};
-    int dy[] = {-1, 0, 1, 0};
-
-    Posicao caminho[map->tamI * map->tamJ];
-    int caminhoTam = 0;
     
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
-        // onde eu coloco o caminho percorrido
-        // while(map->caminhosPossiveis->proxCaminho != NULL){
-        //     if(map->caminhosPossiveis->proxCaminho->tamanho > tam || map->caminhosPossiveis->proxCaminho == NULL){
-
-        //         PCaminho prox = map->caminhosPossiveis->proxCaminho;
-
-        //         map->caminhosPossiveis->proxCaminho = malloc(sizeof(Caminho));
-        //         map->caminhosPossiveis->proxCaminho->tamanho = tam;
-        //         map->caminhosPossiveis->proxCaminho->vetCaminho = (int**) malloc(sizeof(int*) * (tam));
-
-        //         for (int i = 0; i < tam; i++) {
-        //             map->caminhosPossiveis->proxCaminho->vetCaminho[i] = (int*) malloc(sizeof(int) * 2);
-        //             map->caminhosPossiveis->proxCaminho->vetCaminho[i][0] = routes[i][0];
-        //             map->caminhosPossiveis->proxCaminho->vetCaminho[i][1] = routes[i][1];
-        //         }
-
-        //         map->caminhosPossiveis->proxCaminho->proxCaminho = prox;
-        //     }
-
-        //     map->caminhosPossiveis = map->caminhosPossiveis->proxCaminho;
-        // }
-        // return true;
+        // se isso acontecer, significa que o bau foi encontrado (ponteiro)
         map->caminhosPossiveis->proxCaminho = malloc(sizeof(Caminho));
         map->caminhosPossiveis->proxCaminho->tamanho = tam;
         map->caminhosPossiveis->proxCaminho->vetCaminho = (int**) malloc(sizeof(int*) * (tam));
@@ -108,45 +75,49 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
 
     movimentacao(map, x, y);
 
-    // Continuar com a busca em largura
-    Posicao fila[map->tamI * map->tamJ];
-    int inicio = 0;
-    int fim = 0;
-    // Inicializar a fila com a posição inicial
-    fila[fim++] = (Posicao){x, y};
+    routes[(tam)][0] = x; 
+    routes[(tam)][1] = y; // salva a posiçao sendo verificada agora
+    (tam)++;
 
-    while (inicio < fim) {
-        Posicao atual = fila[inicio++];
-        x = atual.x;
-        y = atual.y;
+    
 
-        for (int i = 0; i < 4; i++) {
-            int newX = x + dx[i];
-            int newY = y + dy[i];
+    int dx[] = {0, -1, 0, 1};
+    int dy[] = {-1, 0, 1, 0};  // seguencia de movimentos cima, esquerda, baixo, direita
 
-            if (newX >= 0 && newX < map->tamI && newY >= 0 && newY < map->tamJ &&
-                map->MatrixMovimento[newX][newY] != '1' && map->MatrixMovimento[newX][newY] != 'p') {
-                caminho[caminhoTam++] = (Posicao){newX, newY};
+    for (int i = 0; i < 4; i++) { // testa a sequencia
+        int newX = x + dx[i];
+        int newY = y + dy[i];
 
-                if (map->Matrix[newX][newY] == 'C') {
-                    keys_collected++;
-                }
+        
 
-                if (newX == map->chestI && newY == map->chestJ && keys_collected == map->keys) {
-                    // Caminho encontrado
-                    return true;
-                }
+        if (checkingRoute(map, newX, newY)) {
+            
+            if (map->Matrix[newX][newY] == 'C') {
+                keys_collected++;
+            }
 
-                // Marque a posição como visitada para evitar visitá-la novamente
-                map->MatrixMovimento[newX][newY] = 'p';
+            movimentacao(map, newX, newY);
 
-                // Adicione a próxima posição à fila
-                fila[fim++] = (Posicao){newX, newY};
+
+            if (findShortestPath(newX, newY, keys_collected, map, routes, tam)) {
+                return true;
+            }
+
+            reMovimentacao(map, newX, newY);
+
+            if (map->Matrix[newX][newY] == 'C') {
+                keys_collected--;
             }
         }
     }
 
-    // Se chegou aqui, nenhum caminho foi encontrado
+    routes[(tam)][0] = 0;
+    routes[(tam)][1] = 0;
+    (tam)--;
+
+    // if (aquilo aconteceu)
+    //     return true;
+
     return false;
 }
 
@@ -184,4 +155,3 @@ void procurarCaminho(TipoMap* map){
     }
     refresh();
 }
-
