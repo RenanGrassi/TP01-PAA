@@ -142,6 +142,8 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
         return true;
     }
 
+}
+
 void procurarCaminho(TipoMap* map){
 
     int routes [map->tamI * map->tamJ][2];
@@ -150,7 +152,7 @@ void procurarCaminho(TipoMap* map){
     copyMap(map);
 
 
-    if (findShortestPath(0, 0, 0, map, routes, tam)) {
+    if (findShortestPath(0, 0, 0, map, routes, tam, )) { //passar algo como parâmetro
         refresh();
 
         copyMap(map);
