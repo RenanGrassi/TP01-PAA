@@ -10,6 +10,6 @@ void movimentacao(TipoMap* map, int atualI, int atualJ);
 
 void reMovimentacao(TipoMap* map, int atualI, int atualJ);
 
-bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int* tam);
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam);
 
 void procurarCaminho(TipoMap* map);  // procurar os caminhos possiveis
