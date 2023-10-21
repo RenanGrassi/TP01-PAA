@@ -15,18 +15,26 @@ void teste(){
 //     return x >= 0 && x < ROWS && y >= 0 && y < COLS && parede != '1' && !visited[x][y];
 // }
 
+void mostrarSeguencia(int routes[][2], int *tam){
+
+    for (int i = 0; i < *tam; i++) {
+
+            printf("[%d,%d]", routes[i][0], routes[i][1]);
+            printw("[%d,%d]", routes[i][0], routes[i][1]);
+            refresh();
+
+            if (i < *tam - 1)
+                printf(",");
+                printw(",");
+                refresh();
+        }
+}
+
 bool checkingRoute(TipoMap *map, int i, int j) {
-    
-    // // printar as variaveis dentro do if
-    // printw("\n\ni = %d\nj = %d\ntem uma parede? %c\nJa fui nessa posicao? %c\n\n", i, j, map->MatrixMovimento[i][j], map->MatrixMovimento[i][j]);
-    // refresh();
 
     if(i >= 0 && i < map->tamI && j >= 0 && j < map->tamJ && map->MatrixMovimento[i][j] != '1' && map->MatrixMovimento[i][j] != 'p'){
-        // printw("\n\ni = %d\nj = %d\ntem uma parede? %c\nJa fui nessa posicao? %c\n\n", i+2, j, map->MatrixMovimento[i][j], map->MatrixMovimento[i][j]);
-        // refresh();
+        // showMap(map, true);
         // ncPausar();
-        showMap(map, true);
-        ncPausar();
 
         return true;
     }
@@ -35,18 +43,34 @@ bool checkingRoute(TipoMap *map, int i, int j) {
     }
 }
 
-void movimentacao(TipoMap* map, int atualI, int atualJ){
+void movimentacaoShow(TipoMap* map, int atualI, int atualJ){
         map->MatrixMovimento[atualI][atualJ] = 'P';
         printw("\n");
         printf("\n");
+        showMap(map, true);
+        map->MatrixMovimento[atualI][atualJ] = 'p';
+}
+
+void movimentacao(TipoMap* map, int atualI, int atualJ){
+        map->MatrixMovimento[atualI][atualJ] = 'P';
+        // printw("\n");
+        // printf("\n");
         // showMap(map, true);
         map->MatrixMovimento[atualI][atualJ] = 'p';
+}
+
+void reMovimentacao(TipoMap* map, int atualI, int atualJ){
+        map->MatrixMovimento[atualI][atualJ] = map->Matrix[atualI][atualJ];
+        // printw("\n");
+        // printf("\n");
+        // showMap(map, true);
+        // map->MatrixMovimento[atualI][atualJ] = 'P';
 }
 
 bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int* tam) {
 
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
-        *tam = 0;
+        // *tam = 0;
         return true;
     }
 
@@ -65,11 +89,6 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
         int newX = x + dx[i];
         int newY = y + dy[i];
 
-        // printw("\nnewX = %d\nnewY = %d", newX, newY);
-        // refresh();
-        // printw("\n\n%c\n\n", map->Matrix[newX][newY]);
-        // refresh();
-
         if (checkingRoute(map, newX, newY)) {
             
             if (map->Matrix[newX][newY] == 'C') {
@@ -82,6 +101,8 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
                 return true;
             }
 
+            reMovimentacao(map, newX, newY);
+
             if (map->Matrix[newX][newY] == 'C') {
                 keys_collected--;
             }
@@ -91,6 +112,7 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
     routes[(*tam)][0] = 0;
     routes[(*tam)][1] = 0;
     (*tam)--;
+
     return false;
 }
 
@@ -103,26 +125,23 @@ void procurarCaminho(TipoMap* map, LPosicao* lista){
     *tam = 0;
 
     if (findShortestPath(0, 0, 0, map, routes, tam)) {
-        printw("Indiana Jones consegue abrir o bau :)\n");
         refresh();
 
-        showMap(map, true);
-
+        copyMap(map);
+        int cont = 0;
         for (int i = 0; i < *tam; i++) {
-            
-            printf("[%d,%d]", routes[i][0], routes[i][1]);
-            printw("[%d,%d]", routes[i][0], routes[i][1]);
-            refresh();
-
-            if (i < *tam - 1)
-                printf(",");
-                printw(",");
-                refresh();
+            cont++;
+            ncPausar();     
+            movimentacaoShow(map, routes[i][0], routes[i][1]);       
         }
+        printw("Indiana Jones consegue abrir o bau :)\n");
     } 
 
-    else 
-        printf("Indiana Jones nao consegue abrir o bau :(");
-        
+    else {
+        printf("Indiana Jones nao consegue abrir o bau :(\n");
+        printw("Indiana Jones nao consegue abrir o bau :(\n");
+        refresh();
+    
+    }
 }
 

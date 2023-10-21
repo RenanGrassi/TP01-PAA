@@ -213,6 +213,7 @@ void copyMap(TipoMap* map) {
 
 void freeMap(TipoMap* map){
     int i;
+    copyMap(map);
 
     for (i = 0; i < map->tamI; i++) {
         free(map->Matrix[i]);

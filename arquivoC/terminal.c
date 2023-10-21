@@ -167,7 +167,10 @@ void menu(){
             case 0:
                 if (mapCriado)
                     freeMap(map);
-                break;
+
+                endwin();
+
+                exit(0);
 
             case 1:
                 lerArquivo(&f);

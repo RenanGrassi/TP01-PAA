@@ -4,8 +4,6 @@ int main() {
     nc();
 
     menu();
- 
-    endwin();
-
+    
     return 0;
 }
