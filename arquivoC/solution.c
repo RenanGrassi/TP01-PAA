@@ -60,8 +60,16 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
 bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int* tam) {
 
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
-        // *tam = 0;
         
+        map->caminhosPossiveis->proxCaminho = malloc(sizeof(Caminho));
+        map->caminhosPossiveis->proxCaminho->tamanho = *tam;
+        map->caminhosPossiveis->proxCaminho->vetCaminho = (int**) malloc(sizeof(int*) * (*tam));
+
+        for (int i = 0; i < *tam; i++) {
+            map->caminhosPossiveis->proxCaminho->vetCaminho[i] = (int*) malloc(sizeof(int) * 2);
+            map->caminhosPossiveis->proxCaminho->vetCaminho[i][0] = routes[i][0];
+            map->caminhosPossiveis->proxCaminho->vetCaminho[i][1] = routes[i][1];
+        }
         return true;
     }
 
@@ -107,31 +115,30 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
     return false;
 }
 
-void procurarCaminho(TipoMap* map, LPosicao* lista){
+void procurarCaminho(TipoMap* map){
 
     int routes [map->tamI * map->tamJ][2];
-    int* tam = (int*)malloc(sizeof(int));
-    *tam = 0;
+    int tam = 0;
+
     copyMap(map);
 
-    *tam = 0;
 
-    if (findShortestPath(0, 0, 0, map, routes, tam)) {
+    if (findShortestPath(0, 0, 0, map, routes, &tam)) {
         refresh();
 
         copyMap(map);
+
         int cont = 0;
         int keys = 0;
 
-        for (int i = 0; i < *tam; i++) {
+        for (int i = 0; i < map->caminhosPossiveis->proxCaminho->tamanho; i++) {
             cont++;
-            ncPausar();     
-            movimentacaoShow(map, routes[i][0], routes[i][1], &keys);     
+            ncPausar();
+            movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);     
             refresh(); 
         }
         printw("Indiana Jones consegue abrir o bau :)\n");
         printf("Indiana Jones consegue abrir o bau :)\n");
-        refresh();
     } 
 
     else {

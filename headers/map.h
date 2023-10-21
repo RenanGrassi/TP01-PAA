@@ -1,11 +1,21 @@
 #include "include.h"
 
+typedef struct Caminho* PCaminho;
+typedef struct Caminho{
+
+    int** vetCaminho;
+    int tamanho;
+    PCaminho proxCaminho;
+
+} Caminho;
+
 typedef struct TipoMap{
     unsigned int tamI, tamJ;
     unsigned int keys;
     unsigned int chestI, chestJ;
     char **Matrix;
     char **MatrixMovimento;
+    PCaminho caminhosPossiveis;
 }TipoMap;
 
 void color(int n);  // selecionar a cor

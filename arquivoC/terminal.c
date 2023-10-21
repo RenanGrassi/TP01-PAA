@@ -144,9 +144,9 @@ void menu(){
 
     FILE* f;
     TipoMap* map;
-    LPosicao* caminhosPossiveis;
     int opcao = 1;
     int mapCriado = 0;
+
 
     //fazer um swtich case com as opçoes do menu
     //1 - ler arquivo / gerar mapa
@@ -198,7 +198,7 @@ void menu(){
                 break;
 
             case 4:
-                procurarCaminho(map, caminhosPossiveis);// fazer outro menu para escolher a forma de mostrar o caminho
+                procurarCaminho(map);// fazer outro menu para escolher a forma de mostrar o caminho
                 break;
             
             case 5:

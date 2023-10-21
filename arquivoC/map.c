@@ -164,6 +164,9 @@ TipoMap* generate_map(FILE* f){
     char read;
     
     TipoMap* map = (TipoMap*) malloc(sizeof(TipoMap));
+    map->caminhosPossiveis = malloc(sizeof(Caminho));
+    map->caminhosPossiveis->proxCaminho = NULL;
+    map->caminhosPossiveis->tamanho = 0;
 
     // receber os atributos do mapa
     atributos(f, map);
