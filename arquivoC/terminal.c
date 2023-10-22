@@ -23,6 +23,8 @@
         
         init_color(8, 647, 0, 0);
         init_pair(6, 0, 8);
+
+        init_pair(7, 0, COLOR_BLUE);
     }
 #endif
 
@@ -110,35 +112,57 @@ void identificarCaminhada(int* i, int* j, char ch){
     }
 }
 
-// void chaminhar (TipoMap* map){
+void chaminhar (TipoMap* map){
 
-//     printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
+    printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
 
-//     printf("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
-//     ncPausar();
+    printf("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
+    ncPausar();
+    int newX = 0, newY = 0;
+    int x = 0, y = 0;
+    int tentativas = 0;
+    int keys = 0;
 
-//     int i = 0, j = 0;
-
-//     int** visited;
-
-//     copyMap(map);
-//     movimentacao(map, i, j, visited);
+    copyMap(map);
+    movimentacaoShow(map, x, y, &keys);
     
 
-//     while (true){
+    while (true){
+        
+        if (tentativas == 5){
+            printf("O Indiana Jones bateu a cabeça no caminho errado muitas vezes seguidas, infelizmente ele nao aguentou ;-;");
+            printw("O Indiana Jones bateu a cabeça no caminho errado muitas vezes seguidas, infelizmente ele nao aguentou ;-;");
+            refresh();
+            return;
+        }
 
-//         int ch = getch();  // Lê um caractere
-//         limparTela();
+        int ch = getch();  // Lê um caractere
+        limparTela();
 
-//         if (ch == '0'){
-//             break;
-//         }
+        if (ch == '0'){
+            break;
+        }
 
-//         identificarCaminhada(&i, &j, ch);
-//         movimentacao(map, i, j, visited);
-//     }
+        identificarCaminhada(&newX, &newY, ch);
 
-// }
+        if (checkingRoute(map, newX, newY)){
+            movimentacaoShow(map, newX, newY, &keys);
+            x = newX;
+            y = newY;
+            tentativas = 0;
+        }
+
+        else{
+            movimentacaoShow(map, x, y, &keys);
+            newX = x;
+            newY = y;
+            tentativas++;
+            
+        }
+            
+    }
+
+}
 
 void menu(){
 
@@ -146,6 +170,7 @@ void menu(){
     TipoMap* map;
     int opcao = 1;
     int mapCriado = 0;
+    int caminhosJaVistos = 0;
 
 
     //fazer um swtich case com as opçoes do menu
@@ -159,10 +184,10 @@ void menu(){
     while (opcao){
 
         // printar menu
-        printw("\n1 - Ler arquivo e gerar mapa\n2 - Printar atributos do mapa\n3 - Printar mapa\n4 - Achar o menor caminho\n5 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
+        printw("\n1 - Ler arquivo e gerar mapa\n2 - Gerar mapa aleatorio\n3 - Printar atributos do mapa\n4 - Printar mapa\n5 - Achar o menor caminho\n6 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
         refresh();
 
-        printf("\n1 - Ler arquivo e gerar mapa\n2 - Printar atributos do mapa\n3 - Printar mapa\n4 - Achar o menor caminho\n5 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
+        printf("\n1 - Ler arquivo e gerar mapa\n2 - Gerar mapa aleatorio\n3 - Printar atributos do mapa\n4 - Printar mapa\n5 - Achar o menor caminho\n6 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
         
         opcao = getch();
         opcao -= 48;
@@ -172,21 +197,32 @@ void menu(){
         switch (opcao){
 
             case 0:
+                if (caminhosJaVistos)
+                    freeCaminhos(map->caminhosPossiveis->proxCaminho);
+
                 if (mapCriado)
                     freeMap(map);
-
+                
                 endwin();
 
                 exit(0);
 
             case 1:
+                if (caminhosJaVistos)
+                    freeCaminhos(map->caminhosPossiveis->proxCaminho);
+
+                if (mapCriado)
+                    freeMap(map);
+                
                 endwin();
                 lerArquivo(&f);
                 nc();
 
                 map = generate_map(f);
                 fclose(f);
+                
                 mapCriado = 1;
+                caminhosJaVistos = 0;
                 break;
             
             case 2:
@@ -198,11 +234,11 @@ void menu(){
                 break;
 
             case 4:
-                procurarCaminho(map);// fazer outro menu para escolher a forma de mostrar o caminho
+                procurarCaminho(map, &caminhosJaVistos);// fazer outro menu para escolher a forma de mostrar o caminho
                 break;
             
             case 5:
-                //chaminhar(map);
+                chaminhar(map);
                 break;
                     
             default:

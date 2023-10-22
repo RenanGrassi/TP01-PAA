@@ -2,16 +2,22 @@
 
 void teste();  // so para testar onde esta o erro
 
+void mostraSequencia(int** routes, int tam);
+
 bool checkingRoute(TipoMap *m, int x, int y);
 
 void movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys);
-
-void irProxCaminho(PCaminho caminho, int tam, TipoMap* map, int** routes);
 
 void movimentacao(TipoMap* map, int atualI, int atualJ);
 
 void reMovimentacao(TipoMap* map, int atualI, int atualJ);
 
-bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** routes, int tam, int *cont);
+void irProxCaminho(PCaminho caminho, int tam, TipoMap* map, int** routes);
 
-void procurarCaminho(TipoMap* map);  // procurar os caminhos possiveis
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** routes, int tam, int *caminhosJaVIstos);
+
+void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN);
+
+void procurarCaminho(TipoMap* map, int* caminhosJaVistos);  // procurar os caminhos possiveis
+
+

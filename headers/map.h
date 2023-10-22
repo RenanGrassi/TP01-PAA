@@ -27,6 +27,8 @@ void grafic(char block);  // mostrar o mapa de forma bonita
 
 void linha(int tam);  // mostrar a linha de cima e baixo
 
+void coluna(int tam);
+
 void showMap(TipoMap* map, bool movimento);  // mostrar o mapa
 
 void atributos(FILE *f, TipoMap* map);  // adicionar os atributos do map.h
@@ -37,3 +39,5 @@ TipoMap* generate_map(FILE* f);  // gerar o mapa
 void copyMap(TipoMap* map); // copiar o mapa para o mapa de movimento
 
 void freeMap(TipoMap* map);  // liberar o mapa
+
+void freeCaminhos(PCaminho caminhos);// libera o caminho

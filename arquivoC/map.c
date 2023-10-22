@@ -76,10 +76,10 @@ void grafic(char block){
 
 void linha(int tam){
     for (int i = 0; i < tam+2; i++) {
-        color(1);
+        color(7);
         printw("  ");
         printf("\033[41m  \033[0m");
-        exitColor(1);
+        exitColor(7);
         refresh();
     }
     printw("\n");
@@ -89,10 +89,10 @@ void linha(int tam){
 
 void coluna(int tam){
 
-    color(1);
+    color(7);
     printw("  ");
     printf("\033[41m  \033[0m");
-    exitColor(1);
+    exitColor(7);
     refresh();
 
 }
@@ -227,4 +227,20 @@ void freeMap(TipoMap* map){
     free(map->Matrix);
     free(map->MatrixMovimento);
     free(map);
+}
+
+void freeCaminhos(PCaminho caminhos){
+    if(caminhos == NULL){
+        return;
+    }
+
+    freeCaminhos(caminhos->proxCaminho);
+
+    for(int i = 0; i < caminhos->tamanho; i++){
+        free(caminhos->vetCaminho[i]);
+    }
+
+    free(caminhos->vetCaminho);
+
+    free(caminhos);
 }
