@@ -160,7 +160,7 @@ void printAtributos(TipoMap* map){
 
 }
 
-TipoMap* generate_map(FILE* f){
+TipoMap* generateMap(FILE* f){
     int i, j;
     char read;
     
@@ -195,6 +195,80 @@ TipoMap* generate_map(FILE* f){
         i++;
         j = 0;
     }
+
+    return map;
+}
+
+TipoMap* generateMapAleatorio(){
+    int i, j;
+    srand(time(NULL));
+    
+    TipoMap* map = (TipoMap*) malloc(sizeof(TipoMap));
+    map->caminhosPossiveis = malloc(sizeof(Caminho));
+    map->caminhosPossiveis->proxCaminho = NULL;
+    map->caminhosPossiveis->tamanho = 0;
+
+    // receber os atributos do mapa
+    map->tamI = 10;
+    map->tamJ = 10;
+    map->chestI = rand() % 10;
+    map->chestJ = rand() % 10;
+
+    if(map-> chestI == 0 && map->chestJ == 0)
+        map-> chestI = rand() % map->tamI + 1;
+
+    map->keys = rand() % 6;
+    int keysPostas = 0;
+
+    int paredes = rand() % 10 + 40;
+    int paredesPostas = 0;
+
+    map->Matrix = (char**) calloc(sizeof(char*), map->tamI);
+
+    for (int i = 0; i < map->tamI; i++) {
+        map->Matrix[i] = (char*) calloc(sizeof(char), map->tamJ);
+        for (int j = 0; j < map->tamJ; j++) {
+            map->Matrix[i][j] = '0';
+        }
+    }
+
+    map->Matrix[map->chestI][map->chestJ] = 'X';
+
+    int paredeX = 0;
+    int paredeY = 0;
+
+    int keysX = 0;
+    int keysY = 0;
+
+    
+
+    while (paredesPostas - paredes || keysPostas- map->keys) {
+        if (paredesPostas - paredes){
+            paredeX = rand() % map->tamI;
+            paredeY = rand() % map->tamJ;
+            if (paredeX==0 && paredeY==0){
+                paredeX = rand() % map->tamI + 1;
+            }
+        }
+
+        if (keysPostas - map->keys){
+            keysX = rand() % map->tamI;
+            keysY = rand() % map->tamJ;
+            if (keysX==0 && keysY==0)
+                keysX = rand() % map->tamI + 1;
+        }
+
+        if(map->Matrix[keysX][keysY] != 'X' && map->Matrix[keysX][keysY] != 'C'){
+            map->Matrix[keysX][keysY] = 'C';
+            keysPostas++;
+        }
+
+        if(map->Matrix[paredeX][paredeY] != 'X' && map->Matrix[paredeX][paredeY] != 'C'){
+            map->Matrix[paredeX][paredeY] = '1';
+            paredesPostas++;
+        }
+    }
+
 
     return map;
 }

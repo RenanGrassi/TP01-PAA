@@ -24,20 +24,41 @@ void mostrarSequencia(int** routes, int tam){
     printw("\n");
 }
 
-bool checkingRoute(TipoMap *map, int i, int j) {
+bool checkingRoute(TipoMap *map, int* x, int* y, bool poder) {
+    
+    if (poder){
+        if(*x == -1)
+            *x = map->tamI - 1;
+        else if(*x == map->tamI)
+            *x = 0;
+        else if(*y == -1)
+            *y = map->tamJ - 1;
+        else if (*y == map->tamJ)
+            *y = 0;
+    }
 
-    if(i >= 0 && i < map->tamI && j >= 0 && j < map->tamJ && map->MatrixMovimento[i][j] != '1' && map->MatrixMovimento[i][j] != 'p'){
+    if(*x >= 0 && *x < map->tamI && *y >= 0 && *y < map->tamJ && map->MatrixMovimento[*x][*y] != '1' && map->MatrixMovimento[*x][*y] != 'p'){
         return true;
     }
+
+
     else{
         return false;
     }
 }
 
-void movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
+bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
+
+    int abriu = false;
 
     if(map->MatrixMovimento[atualI][atualJ] == 'C')
         (*keys)++;
+
+    if(map->MatrixMovimento[atualI][atualJ] == 'X' && *keys == map->keys){
+        printw("\nIndiana Jones conseguiu abrir o bau\n");
+        printf("\nIndiana Jones conseguiu abrir o bau\n");
+        abriu = true;
+    }
 
     map->MatrixMovimento[atualI][atualJ] = 'P';
     printw("\n");
@@ -47,6 +68,8 @@ void movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
     printf("\n Indiana Jones pegou %d chaves\n", *keys);
     refresh();
     map->MatrixMovimento[atualI][atualJ] = 'p';
+
+    return abriu;
 }
 
 void movimentacao(TipoMap* map, int atualI, int atualJ){
@@ -58,7 +81,6 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
 }
 
 void irProxCaminho(PCaminho caminho, int tam, TipoMap* map, int** routes){
-
 
     if(caminho->proxCaminho == NULL){
 
@@ -76,7 +98,7 @@ void irProxCaminho(PCaminho caminho, int tam, TipoMap* map, int** routes){
 
     }
 
-    else if(tam <= caminho->tamanho ){
+    else if(tam <= caminho->proxCaminho->tamanho ){
         PCaminho prox = caminho->proxCaminho;
 
         caminho->proxCaminho = (PCaminho)malloc(sizeof(Caminho));
@@ -124,7 +146,7 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** rout
 
         
 
-        if (checkingRoute(map, newX, newY)) {
+        if (checkingRoute(map, &newX, &newY, false)) {
             
             if (map->Matrix[newX][newY] == 'C') {
                 keys_collected++;
@@ -170,6 +192,9 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
     for (int i = 0; i < caminho->tamanho; i++) {
         printf("\nmostragem: %d\n", *rotaN);
         printw("\nmostragem: %d\n", *rotaN);
+        printf("\ntamanho: %d\n", caminho->tamanho);
+        printw("\ntamanho: %d\n", caminho->tamanho);
+
         movimentacaoShow(map, caminho->vetCaminho[i][0], caminho->vetCaminho[i][1], &keys);     
         refresh(); 
         ncPausar();
@@ -197,41 +222,64 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
     if (map->caminhosPossiveis->proxCaminho == NULL)
         findShortestPath(0, 0, 0, map, routes, tam, caminhosJaVistos);
     
+    
     if(*caminhosJaVistos){
-        int opcao = -1;
+        int opcao = -1  ;
 
         while (opcao != 0){
+            copyMap(map);
+            
+            printf("Foram encontrados %d caminhos possiveis\n", *caminhosJaVistos);
             printf("Escolha uma opcao:\n");
-            printw("Escolha uma opcao:\n");
             printf("1 - Mostrar o menor caminho\n");
-            printw("1 - Mostrar o menor caminho\n");
             printf("2 - Mostrar todos os caminhos\n");
-            printw("2 - Mostrar todos os caminhos\n");
-            printf("3 - Mostrar por meio de tuplas\n");
-            printw("3 - Mostrar por meio de tuplas\n");
+            printf("3 - Mostrar como solicitado na especificacao do TP\n");
             printf("0 - Sair\n");
+
+            printw("Foram encontrados %d caminhos possiveis\n", *caminhosJaVistos);
+            printw("Escolha uma opcao:\n");
+            printw("1 - Mostrar o menor caminho\n");
+            printw("2 - Mostrar todos os caminhos\n");
+            printw("3 - Mostrar como solicitado na especificacao do TP\n");
             printw("0 - Sair\n");
 
-            scanf("%d", &opcao);
+            refresh();
+
+            opcao = getch();
+            opcao -= 48;
+            
+            limparTela();
 
             switch(opcao){
                 case 1:
-                    movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[0][0], map->caminhosPossiveis->proxCaminho->vetCaminho[0][1], &keys);
+                    for(int i = 0; i < map->caminhosPossiveis->proxCaminho->tamanho; i++){
+                        movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);
+                        ncPausar();
+                    }
+
                     printf("Indiana Jones conseguiu abrir o bau :)\n");
                     printw("Indiana Jones conseguiu abrir o bau :)\n");
                     break;
+
                 case 2:
                     mostragemCaminho(map, map->caminhosPossiveis->proxCaminho, &rotaN);
                     break;
+
                 case 3:
                     mostrarSequencia(map->caminhosPossiveis->proxCaminho->vetCaminho, map->caminhosPossiveis->proxCaminho->tamanho);
                     break;
+
                 case 0:
                     printf("Saindo...\n");
+                    printw("Saindo...\n");
                     break;
+
                 default:
                     printf("Opcao invalida. Tente novamente.\n");
+                    printw("Opcao invalida. Tente novamente.\n");
             }
+
+            ncPausar();
             
         }
     }
@@ -242,29 +290,4 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
     }
 
     refresh();
-    
-    // swtich case
-    // 1 mostrar o menor caminho movimentacaoShow()
-    // 2 mostrar todos os caminhos mostragemCaminho()
-    // 3 mostrar por meio de tuplas mostrarSequencia()
-    // 0 sair
-
-
-
-    // if (*caminhosJaVistos) { //passar algo como parâmetro
-    //     printf("Indiana Jones consegue abrir o bau de %d formas diferente deseja mostrar todas?\n", *caminhosJaVistos);
-    //     printw("Indiana Jones consegue abrir o bau de %d formas diferente deseja mostrar todas?\n", *caminhosJaVistos);
-    //     ncPausar();
-    //     refresh();
-    //     // mostragemCaminho(map, map->caminhosPossiveis->proxCaminho, &rotaN);
-    //     printw("tam = %d\n", map->caminhosPossiveis->proxCaminho->tamanho);
-    //     mostrarSequencia(map->caminhosPossiveis->proxCaminho->vetCaminho, map->caminhosPossiveis->proxCaminho->tamanho);
-            
-    // } 
-
-    // else {
-    //     printf("Indiana Jones nao consegue abrir o bau :(\n");
-    //     printw("Indiana Jones nao consegue abrir o bau :(\n");
-    // }
-    // refresh();
 }

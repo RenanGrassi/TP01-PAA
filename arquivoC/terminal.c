@@ -114,7 +114,7 @@ void identificarCaminhada(int* i, int* j, char ch){
 
 void chaminhar (TipoMap* map){
 
-    printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
+    printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM ENTRETANTO VOCE TEM O PODER DE TRANSFORMAR O MAPA EM GLOBO\n\n");
 
     printf("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM\n\n");
     ncPausar();
@@ -130,8 +130,8 @@ void chaminhar (TipoMap* map){
     while (true){
         
         if (tentativas == 5){
-            printf("O Indiana Jones bateu a cabeça no caminho errado muitas vezes seguidas, infelizmente ele nao aguentou ;-;");
-            printw("O Indiana Jones bateu a cabeça no caminho errado muitas vezes seguidas, infelizmente ele nao aguentou ;-;");
+            printf("O Indiana Jones bateu a cabeca no caminho errado muitas vezes seguidas, infelizmente ele nao aguentou ;-;");
+            printw("O Indiana Jones bateu a cabeca no caminho errado muitas vezes seguidas, infelizmente ele nao aguentou ;-;");
             refresh();
             return;
         }
@@ -145,8 +145,9 @@ void chaminhar (TipoMap* map){
 
         identificarCaminhada(&newX, &newY, ch);
 
-        if (checkingRoute(map, newX, newY)){
-            movimentacaoShow(map, newX, newY, &keys);
+        if (checkingRoute(map, &newX, &newY, true)){
+            if(movimentacaoShow(map, newX, newY, &keys))
+                return;
             x = newX;
             y = newY;
             tentativas = 0;
@@ -218,7 +219,7 @@ void menu(){
                 lerArquivo(&f);
                 nc();
 
-                map = generate_map(f);
+                map = generateMap(f);
                 fclose(f);
                 
                 mapCriado = 1;
@@ -226,18 +227,33 @@ void menu(){
                 break;
             
             case 2:
-                printAtributos(map);
+                limparInput();
+                
+                if (caminhosJaVistos)
+                    freeCaminhos(map->caminhosPossiveis->proxCaminho);
+
+                if (mapCriado)
+                    freeMap(map);
+                
+                map = generateMapAleatorio();
+                
+                mapCriado = 1;
+                caminhosJaVistos = 0;
                 break;
 
             case 3:
-                showMap(map, false);
+                printAtributos(map);
                 break;
 
             case 4:
+                showMap(map, false);
+                break;
+
+            case 5:
                 procurarCaminho(map, &caminhosJaVistos);// fazer outro menu para escolher a forma de mostrar o caminho
                 break;
             
-            case 5:
+            case 6:
                 chaminhar(map);
                 break;
                     

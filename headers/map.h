@@ -34,7 +34,9 @@ void showMap(TipoMap* map, bool movimento);  // mostrar o mapa
 void atributos(FILE *f, TipoMap* map);  // adicionar os atributos do map.h
 
 void printAtributos(TipoMap* map); // printar os atributos do map.h
-TipoMap* generate_map(FILE* f);  // gerar o mapa
+TipoMap* generateMap(FILE* f);  // gerar o mapa
+
+TipoMap* generateMapAleatorio();
 
 void copyMap(TipoMap* map); // copiar o mapa para o mapa de movimento
 

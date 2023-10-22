@@ -4,9 +4,9 @@ void teste();  // so para testar onde esta o erro
 
 void mostraSequencia(int** routes, int tam);
 
-bool checkingRoute(TipoMap *m, int x, int y);
+bool checkingRoute(TipoMap *m, int* x, int* y, bool poder);
 
-void movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys);
+bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys);
 
 void movimentacao(TipoMap* map, int atualI, int atualJ);
 
