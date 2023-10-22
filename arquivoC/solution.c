@@ -130,13 +130,10 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
         (*cont)++;
         
     }
-    
 
 
-    
-
-    int dx[] = {0, 1, 0, -1};
-    int dy[] = {1, 0, -1, 0};  // seguencia de movimentos cima, esquerda, baixo, direita
+    int dx[] = {0, -1, 0, 1};
+    int dy[] = {-1, 0, 1, 0};  // seguencia de movimentos cima, esquerda, baixo, direita
 
     for (int i = 0; i < 4; i++) { // testa a sequencia
         int newX = x + dx[i];
@@ -169,8 +166,6 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes
     routes[(tam)][1] = 0;
     (tam)--;
 
-    // if (aquilo aconteceu)
-    //     return true;
 
     return false;
 }//deve 
@@ -181,7 +176,9 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho){
     copyMap(map);
 
     if (caminho == NULL) {
+        printf("\n\nIndiana Jones correu muito!! Mas acabou\n\n");
         printw("\n\nIndiana Jones correu muito!! Mas acabou\n\n");
+        refresh();
         return;
     }
 
