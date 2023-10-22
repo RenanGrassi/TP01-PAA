@@ -3,7 +3,7 @@
 typedef struct Caminho* PCaminho;
 typedef struct Caminho{
 
-    int** vetCaminho;
+    int ** vetCaminho;
     int tamanho;
     PCaminho proxCaminho;
 

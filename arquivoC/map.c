@@ -129,6 +129,7 @@ void showMap(TipoMap* map, bool movimento){
 
     
     linha(map->tamJ); 
+
 }
 
 void atributos(FILE *f, TipoMap* map){ //adiciona os atributos do map.h
