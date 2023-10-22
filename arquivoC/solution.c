@@ -34,17 +34,18 @@ bool checkingRoute(TipoMap *map, int i, int j) {
     }
 }
 
-void movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
+void movimentacaoShow(TipoMap* map, int atualI, int atualJ){
+    int keys = 0;
 
     if(map->MatrixMovimento[atualI][atualJ] == 'C')
-        (*keys)++;
+        keys++;
 
     map->MatrixMovimento[atualI][atualJ] = 'P';
     printw("\n");
     printf("\n");
     showMap(map, true);
-    printw("\n Indiana Jones pegou %d chaves\n", *keys);
-    printf("\n Indiana Jones pegou %d chaves\n", *keys);
+    printw("\n Indiana Jones pegou %d chaves\n", keys);
+    printf("\n Indiana Jones pegou %d chaves\n", keys);
     refresh();
     map->MatrixMovimento[atualI][atualJ] = 'p';
 }
@@ -58,31 +59,84 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
         map->MatrixMovimento[atualI][atualJ] = map->Matrix[atualI][atualJ];
 }
 
-/*bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam) {
-    
-    if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
-        // se isso acontecer, significa que o bau foi encontrado (ponteiro)
-        map->caminhosPossiveis->proxCaminho = malloc(sizeof(Caminho));
-        map->caminhosPossiveis->proxCaminho->tamanho = tam;
-        map->caminhosPossiveis->proxCaminho->vetCaminho = (int**) malloc(sizeof(int*) * (tam));
+// void InsereLinha(TLinhas* pLinha, int linha){
+
+//     if (pLinha->pPrimeiro->pProx == NULL){
+
+//         pLinha->pUltimo->pProx = (pTipoLinha)malloc(sizeof(TCelulaLinha));
+//         pLinha->pUltimo = pLinha->pUltimo->pProx;
+//         pLinha->pUltimo->Linha = linha;
+//         pLinha->pUltimo->pProx = NULL;
+//     }
+//     else {
+//             if(pLinha->pUltimo->Linha != linha){ 
+//                 pLinha->pUltimo->pProx = (pTipoLinha)malloc(sizeof(TCelulaLinha));
+//                 pLinha->pUltimo = pLinha->pUltimo->pProx;
+//                 pLinha->pUltimo->Linha = linha;
+//                 pLinha->pUltimo->pProx = NULL;
+//             }
+//     }
+// }
+
+void irProxCaminho(PCaminho caminho, int tam, TipoMap* map, int routes[][2]){
+
+    if(caminho->proxCaminho == NULL){
+
+        caminho->proxCaminho = (PCaminho)malloc(sizeof(Caminho));
+        caminho->proxCaminho->tamanho = tam;
+        caminho->proxCaminho->vetCaminho = (int**) malloc(sizeof(int*) * (tam));
 
         for (int i = 0; i < tam; i++) {
-            map->caminhosPossiveis->proxCaminho->vetCaminho[i] = (int*) malloc(sizeof(int) * 2);
-            map->caminhosPossiveis->proxCaminho->vetCaminho[i][0] = routes[i][0];
-            map->caminhosPossiveis->proxCaminho->vetCaminho[i][1] = routes[i][1];
+            caminho->proxCaminho->vetCaminho[i] = (int*) malloc(sizeof(int) * 2);
+            caminho->proxCaminho->vetCaminho[i][0] = routes[i][0];
+            caminho->proxCaminho->vetCaminho[i][1] = routes[i][1];
         }
+        
+        caminho->proxCaminho->proxCaminho = NULL;
     }
 
+    else if(tam <= caminho->tamanho ){
+                
+                PCaminho prox = caminho->proxCaminho;
+
+                caminho->proxCaminho = malloc(sizeof(Caminho));
+                caminho->proxCaminho->tamanho = tam;
+                caminho->proxCaminho->vetCaminho = (int**) malloc(sizeof(int*) * (tam));
+        
+                for (int i = 0; i < tam; i++) {
+                    caminho->proxCaminho->vetCaminho[i] = (int*) malloc(sizeof(int) * 2);
+                    caminho->proxCaminho->vetCaminho[i][0] = routes[i][0];
+                    caminho->proxCaminho->vetCaminho[i][1] = routes[i][1];
+                }
+
+                caminho->proxCaminho->proxCaminho = prox;
+    }
+
+}
+
+
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam, int* cont) {
+    
     movimentacao(map, x, y);
 
     routes[(tam)][0] = x; 
     routes[(tam)][1] = y; // salva a posiçao sendo verificada agora
     (tam)++;
 
+    if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
+        // onde eu coloco o caminho percorrido
+
+        irProxCaminho(map->caminhosPossiveis, tam, map, routes);
+        (*cont)++;
+        
+    }
     
 
-    int dx[] = {0, -1, 0, 1};
-    int dy[] = {-1, 0, 1, 0};  // seguencia de movimentos cima, esquerda, baixo, direita
+
+    
+
+    int dx[] = {0, 1, 0, -1};
+    int dy[] = {1, 0, -1, 0};  // seguencia de movimentos cima, esquerda, baixo, direita
 
     for (int i = 0; i < 4; i++) { // testa a sequencia
         int newX = x + dx[i];
@@ -99,7 +153,7 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
             movimentacao(map, newX, newY);
 
 
-            if (findShortestPath(newX, newY, keys_collected, map, routes, tam)) {
+            if (findShortestPath(newX, newY, keys_collected, map, routes, tam, cont)) {
                 return true;
             }
 
@@ -119,28 +173,27 @@ void reMovimentacao(TipoMap* map, int atualI, int atualJ){
     //     return true;
 
     return false;
-}*/
+}//deve 
 
-//Funcao revivida do Ataide
-//aaBB
-bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int routes[][2], int tam, PCaminho* shortestPath) {
-    if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
-        // Confere se o caminho atual é menor que o caminho mais curto ja encontrado
-        if (tam < (*shortestPath)->tamanho) {
-            // Atualiza o caminho mais curto
-            PCaminho novoCaminho = malloc(sizeof(Caminho));
-            novoCaminho->tamanho = tam;
-            novoCaminho->vetCaminho = (int**)malloc(sizeof(int*) * tam);
-            for (int i = 0; i < tam; i++) {
-                novoCaminho->vetCaminho[i] = (int*)malloc(sizeof(int) * 2);
-                novoCaminho->vetCaminho[i][0] = routes[i][0];
-                novoCaminho->vetCaminho[i][1] = routes[i][1];
-            }
-            novoCaminho->proxCaminho = *shortestPath;
-            *shortestPath = novoCaminho;
-        }
-        return true;
+void mostragemCaminho(TipoMap* map, PCaminho caminho){
+    int keys = 0;
+
+    copyMap(map);
+
+    if (caminho == NULL) {
+        printw("\n\nIndiana Jones correu muito!! Mas acabou\n\n");
+        return;
     }
+
+    for (int i = 0; i < caminho->tamanho; i++) {
+        movimentacaoShow(map, caminho->vetCaminho[i][0], caminho->vetCaminho[i][1]);     
+        refresh(); 
+        ncPausar();
+    }
+
+    printw("Indiana Jones conseguiu abrir o bau :)\n");
+    printf("Indiana Jones conseguiu abrir o bau :)\n");
+    mostragemCaminho(map, caminho->proxCaminho);
 
 }
 
@@ -148,33 +201,21 @@ void procurarCaminho(TipoMap* map){
 
     int routes [map->tamI * map->tamJ][2];
     int tam = 0;
+    int cont = 0;
+
 
     copyMap(map);
+    findShortestPath(0, 0, 0, map, routes, tam, &cont);
 
-
-    if (findShortestPath(0, 0, 0, map, routes, tam, )) { //passar algo como parâmetro
+    if (cont) { //passar algo como parâmetro
         refresh();
-
-        copyMap(map);
-
-        int cont = 0;
-        int keys = 0;
-
-        for (int i = 0; i < map->caminhosPossiveis->proxCaminho->tamanho; i++) {
-            cont++;
-            ncPausar();
-            movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);     
-            refresh(); 
-        }
-        printw("Indiana Jones consegue abrir o bau :)\n");
-        printf("Indiana Jones consegue abrir o bau :)\n");
+        mostragemCaminho(map, map->caminhosPossiveis->proxCaminho);
+            
     } 
 
     else {
         printf("Indiana Jones nao consegue abrir o bau :(\n");
         printw("Indiana Jones nao consegue abrir o bau :(\n");
-        
-    
     }
     refresh();
 }
