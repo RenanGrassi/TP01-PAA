@@ -1,16 +1,5 @@
 #include "../headers/map.h"
 
-void teste(){
-    printw("\n\nteste\n\n");
-    printf("\n\nteste\n\n");
-    refresh();
-}
-
-//colocar printf sempre depois de um printw com a mesma mensagem
-// exemplo:
-        // printw("  ");
-        // printf("  ");
-
 #ifdef __linux__
     void color(int n){
         attron(COLOR_PAIR(n));  // Define a cor do te
@@ -26,6 +15,17 @@ void teste(){
     void exitColor(int n){    }
 
 #endif
+
+void teste(){ // so para testar onde esta o erro
+    printw("\n\nteste\n\n");
+    printf("\n\nteste\n\n");
+    refresh();
+}
+
+void timePause(){
+    struct timespec delay = {0, 60000000};  // 50 milissegundos
+    nanosleep(&delay, NULL);
+}
 
 void grafic(char block){
     switch (block){
@@ -56,7 +56,7 @@ void grafic(char block){
         exitColor(3);
         break;
     
-    //desenahr um personagem
+    // desenahr um personagem
     case 'P':
 
         color(4);
@@ -72,25 +72,17 @@ void grafic(char block){
         exitColor(5);
         break;
 
-    // case 'A':
-    //     color(6);
-    //     printw("  ");
-    //     printf("  ");
-    //     exitColor(6);
-    //     break;
-
     default:
         break;
     }
 }
 
-
 void linha(int tam){
     for (int i = 0; i < tam+2; i++) {
-        color(1);
+        color(7);
         printw("  ");
-        printf("\033[41m  \033[0m");
-        exitColor(1);
+        printf("\033[46m  \033[0m");
+        exitColor(7);
         refresh();
     }
     printw("\n");
@@ -100,10 +92,10 @@ void linha(int tam){
 
 void coluna(int tam){
 
-    color(1);
+    color(7);
     printw("  ");
-    printf("\033[41m  \033[0m");
-    exitColor(1);
+    printf("\033[46m  \033[0m");
+    exitColor(7);
     refresh();
 
 }
@@ -119,7 +111,6 @@ void showMap(TipoMap* map, bool movimento){
                 coluna(map->tamJ);
             }
 
-            // printw("%c ", map->Matrix[i][j]);
             if (movimento)
                 grafic(map->MatrixMovimento[i][j]);
             
@@ -140,6 +131,7 @@ void showMap(TipoMap* map, bool movimento){
 
     
     linha(map->tamJ); 
+
 }
 
 void atributos(FILE *f, TipoMap* map){ //adiciona os atributos do map.h
@@ -170,19 +162,22 @@ void printAtributos(TipoMap* map){
 
 }
 
-TipoMap* generate_map(FILE* f){
+TipoMap* generateMap(FILE* f){
     int i, j;
     char read;
     
     TipoMap* map = (TipoMap*) malloc(sizeof(TipoMap));
+    map->caminhosPossiveis = malloc(sizeof(Caminho));
+    map->caminhosPossiveis->proxCaminho = NULL;
+    map->caminhosPossiveis->tamanho = 0;
 
     // receber os atributos do mapa
     atributos(f, map);
 
-    map->Matrix = (char**) calloc(sizeof(char*), map->tamI);
+    map->Matrix = (char**) malloc(sizeof(char*) * map->tamI);
 
     for (int i = 0; i < map->tamI; i++) {
-        map->Matrix[i] = (char*) calloc(sizeof(char), map->chestJ);
+        map->Matrix[i] = (char*) malloc(sizeof(char) * map->tamJ);
     }
     
     i = 0;
@@ -194,13 +189,88 @@ TipoMap* generate_map(FILE* f){
 
 
             if (read >= 48 && read <= 122) {
-                    // printw("%c", read);
                     map->Matrix[i][j] = read;
                     j++;
             }
         }
         i++;
         j = 0;
+    }
+
+    return map;
+}
+
+TipoMap* generateMapAleatorio(){
+    int i, j;
+    
+    srand(time(NULL));
+
+    TipoMap* map = (TipoMap*) malloc(sizeof(TipoMap));
+    map->caminhosPossiveis = malloc(sizeof(Caminho));
+    map->caminhosPossiveis->proxCaminho = NULL;
+    map->caminhosPossiveis->tamanho = 0;
+
+
+    // receber os atributos do mapa
+    map->tamI = rand() % 5 + 10;
+    map->tamJ = rand() % 5 + 10;
+    map->chestI = rand() % map->tamI;
+    map->chestJ = rand() % map->tamJ;
+
+    if(map-> chestI == 0 && map->chestJ == 0)
+        map-> chestI = rand() % (map->tamI-1) + 1;
+
+    map->keys = rand() % 4 + 1; // no min uma chave
+    int paredes = rand() % (map->tamI + map->tamJ) + 2*(map->tamI + map->tamJ); 
+
+    int keysPostas = 0;
+    int paredesPostas = 0;
+
+
+    map->Matrix = (char**) malloc(sizeof(char*) * map->tamI);
+
+    for (int i = 0; i < map->tamI; i++) {
+        map->Matrix[i] = (char*) malloc(sizeof(char) * map->tamJ);
+
+        for (int j = 0; j < map->tamJ; j++) {
+            map->Matrix[i][j] = '0';
+        }
+    }
+
+    map->Matrix[map->chestI][map->chestJ] = 'X';
+
+    int paredeX = 0;
+    int paredeY = 0;
+
+    int keysX = 0;
+    int keysY = 0;
+
+    while (paredesPostas != paredes || keysPostas != map->keys) {
+        if (paredesPostas != paredes){
+            paredeX = rand() % map->tamI;
+            paredeY = rand() % map->tamJ;
+            
+            if (paredeX==0 && paredeY==0)
+                paredeX = rand() % (map->tamI-1) + 1;
+            
+            if(map->Matrix[paredeX][paredeY] != 'X' && map->Matrix[paredeX][paredeY] != '1' && map->Matrix[paredeX][paredeY] != 'C'){
+                map->Matrix[paredeX][paredeY] = '1';
+                paredesPostas++;
+            }
+        }
+
+        if (keysPostas != map->keys){
+            keysX = rand() % map->tamI;
+            keysY = rand() % map->tamJ;
+
+            if (keysX==0 && keysY==0)
+                keysX = rand() % (map->tamI-1) + 1;
+
+            if(map->Matrix[keysX][keysY] != 'X' && map->Matrix[keysX][keysY] != '1' && map->Matrix[keysX][keysY] != 'C'){
+                map->Matrix[keysX][keysY] = 'C';
+                keysPostas++;
+            }
+        }
     }
 
     return map;
@@ -224,6 +294,7 @@ void copyMap(TipoMap* map) {
 
 void freeMap(TipoMap* map){
     int i;
+    copyMap(map);
 
     for (i = 0; i < map->tamI; i++) {
         free(map->Matrix[i]);
@@ -233,4 +304,20 @@ void freeMap(TipoMap* map){
     free(map->Matrix);
     free(map->MatrixMovimento);
     free(map);
+}
+
+void freeCaminhos(PCaminho caminhos){
+    if(caminhos == NULL){
+        return;
+    }
+
+    freeCaminhos(caminhos->proxCaminho);
+
+    for(int i = 0; i < caminhos->tamanho; i++){
+        free(caminhos->vetCaminho[i]);
+    }
+
+    free(caminhos->vetCaminho);
+
+    free(caminhos);
 }

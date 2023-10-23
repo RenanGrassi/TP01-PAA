@@ -1,50 +1,21 @@
-#include "include.h"
+#include "map.h"
 
-// typedef struct Posicao PPosicao;
-// typedef struct Posicao{
-    
-//     union {
+void mostraSequencia(int** routes, int tam); // mostra a sequencia da forma pedida no TP [0,0],[0,1]...
 
-//         struct{
-//             PPosicao posicaoFinal;
-//         } primeraPosicao;
+bool checkingRoute(TipoMap *m, int* x, int* y, bool poder); // verifica se a rota eh valida, poder: true = pode passar pelas paredes, false = não pode passar pelas paredes
 
-//         struct {
-//             int tam;
-//         } ultimaPosicao;
+bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys); // mostra o mapa movimentacao adicionando a posicao atualI e atualJ
 
-//         int linha;
-//         int coluna;
-//         PPosicao proxPosicao;
-//     };
+void movimentacao(TipoMap* map, int atualI, int atualJ); // movimentacao do indiana jones
 
-// } TipoPosicao;
+void reMovimentacao(TipoMap* map, int atualI, int atualJ); // volta a movimentacao do indiana jones
+
+void irProxCaminho(PCaminho caminho, int tam, TipoMap* map, int** routes); // adiciona na lista encadeada de forma ordenada
+
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** routes, int tam, int *caminhosJaVIstos); // achar o um caminho possivel recursivamente
+
+void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN); // mostra todos os caminhos de forma recursiva
+
+void procurarCaminho(TipoMap* map, int* caminhosJaVistos);  // menu de mostragem de caminhos possiveis
 
 
-// typedef struct ListaPosicao{
-
-//     PPosicao* primeiro;
-//     PPosicao* ultimo;
-//     int tamanho;
-
-// } TipoListaPosicao;
-
-
-
-bool isSafe(char** map, int maxLinha, int maxColuna, int i, int j);
-
-// bool solveMaze(int maze[N][N])
-// {
-//     int sol[N][N] = { { 0, 0, 0, 0 },
-//                       { 0, 0, 0, 0 },
-//                       { 0, 0, 0, 0 },
-//                       { 0, 0, 0, 0 } };
-//     if (solveMazeUtil(maze, 0, 0, sol) == false) {
-//         printf("Solution doesn't exist");
-//         return false;
-//     }
-//     printSolution(sol);
-//     return true;
-// }
- 
-bool solveMap(char** map, int maxLinha, int maxColuna, int i, int j, char** resolve);
