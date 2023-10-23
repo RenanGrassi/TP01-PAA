@@ -1,7 +1,5 @@
 #include "map.h"
 
-void teste();  // so para testar onde esta o erro
-
 void mostraSequencia(int** routes, int tam);
 
 bool checkingRoute(TipoMap *m, int* x, int* y, bool poder);

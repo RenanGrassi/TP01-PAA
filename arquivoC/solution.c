@@ -1,11 +1,5 @@
 #include "../headers/solution.h"
 
-void teste(){
-    printw("\n\nteste\n\n");
-    printf("\n\nteste\n\n");
-    refresh();
-}
-
 void mostrarSequencia(int** routes, int tam){
 
     for (int i = 0; i < tam; i++) {
@@ -154,7 +148,6 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** rout
 
             movimentacao(map, newX, newY);
 
-
             if (findShortestPath(newX, newY, keys_collected, map, routes, tam, caminhosJaVistos)) {
                 return true;
             }
@@ -197,7 +190,8 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
 
         movimentacaoShow(map, caminho->vetCaminho[i][0], caminho->vetCaminho[i][1], &keys);     
         refresh(); 
-        ncPausar();
+        sleep(0.7);
+        limparTela();
     }
 
     printw("Indiana Jones conseguiu abrir o bau :)\n");
@@ -254,9 +248,11 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
                 case 1:
                     for(int i = 0; i < map->caminhosPossiveis->proxCaminho->tamanho; i++){
                         movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);
-                        ncPausar();
+                        struct timespec delay = {0, 50000000};  // 10 milissegundos
+                        nanosleep(&delay, NULL);
+                        limparTela();
                     }
-
+                    ncPausar();
                     printf("Indiana Jones conseguiu abrir o bau :)\n");
                     printw("Indiana Jones conseguiu abrir o bau :)\n");
                     break;

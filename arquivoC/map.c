@@ -1,5 +1,10 @@
 #include "../headers/map.h"
 
+void teste(){ // so para testar onde esta o erro
+    printw("\n\nteste\n\n");
+    printf("\n\nteste\n\n");
+    refresh();
+}
 
 #ifdef __linux__
     void color(int n){
@@ -172,10 +177,10 @@ TipoMap* generateMap(FILE* f){
     // receber os atributos do mapa
     atributos(f, map);
 
-    map->Matrix = (char**) calloc(sizeof(char*), map->tamI);
+    map->Matrix = (char**) malloc(sizeof(char*) * map->tamI);
 
     for (int i = 0; i < map->tamI; i++) {
-        map->Matrix[i] = (char*) calloc(sizeof(char), map->chestJ);
+        map->Matrix[i] = (char*) malloc(sizeof(char) * map->tamJ);
     }
     
     i = 0;
@@ -201,12 +206,14 @@ TipoMap* generateMap(FILE* f){
 
 TipoMap* generateMapAleatorio(){
     int i, j;
-    srand(time(NULL));
     
+    srand(time(NULL));
+
     TipoMap* map = (TipoMap*) malloc(sizeof(TipoMap));
     map->caminhosPossiveis = malloc(sizeof(Caminho));
     map->caminhosPossiveis->proxCaminho = NULL;
     map->caminhosPossiveis->tamanho = 0;
+
 
     // receber os atributos do mapa
     map->tamI = 10;
@@ -218,15 +225,17 @@ TipoMap* generateMapAleatorio(){
         map-> chestI = rand() % map->tamI + 1;
 
     map->keys = rand() % 6;
-    int keysPostas = 0;
+    int paredes = 30;
 
-    int paredes = rand() % 10 + 40;
+    int keysPostas = 0;
     int paredesPostas = 0;
 
-    map->Matrix = (char**) calloc(sizeof(char*), map->tamI);
+
+    map->Matrix = (char**) malloc(sizeof(char*) * map->tamI);
 
     for (int i = 0; i < map->tamI; i++) {
-        map->Matrix[i] = (char*) calloc(sizeof(char), map->tamJ);
+        map->Matrix[i] = (char*) malloc(sizeof(char) * map->tamJ);
+
         for (int j = 0; j < map->tamJ; j++) {
             map->Matrix[i][j] = '0';
         }
@@ -240,35 +249,33 @@ TipoMap* generateMapAleatorio(){
     int keysX = 0;
     int keysY = 0;
 
-    
-
-    while (paredesPostas - paredes || keysPostas- map->keys) {
-        if (paredesPostas - paredes){
+    while (paredesPostas != paredes || keysPostas != map->keys) {
+        if (paredesPostas != paredes){
             paredeX = rand() % map->tamI;
             paredeY = rand() % map->tamJ;
-            if (paredeX==0 && paredeY==0){
-                paredeX = rand() % map->tamI + 1;
+            
+            if (paredeX==0 && paredeY==0)
+                paredeX = rand() % (map->tamI-1) + 1;
+            
+            if(map->Matrix[paredeX][paredeY] != 'X' && map->Matrix[paredeX][paredeY] != '1' && map->Matrix[paredeX][paredeY] != 'C'){
+                map->Matrix[paredeX][paredeY] = '1';
+                paredesPostas++;
             }
         }
 
-        if (keysPostas - map->keys){
+        if (keysPostas != map->keys){
             keysX = rand() % map->tamI;
             keysY = rand() % map->tamJ;
+
             if (keysX==0 && keysY==0)
-                keysX = rand() % map->tamI + 1;
-        }
+                keysX = rand() % (map->tamI-1) + 1;
 
-        if(map->Matrix[keysX][keysY] != 'X' && map->Matrix[keysX][keysY] != 'C'){
-            map->Matrix[keysX][keysY] = 'C';
-            keysPostas++;
-        }
-
-        if(map->Matrix[paredeX][paredeY] != 'X' && map->Matrix[paredeX][paredeY] != 'C'){
-            map->Matrix[paredeX][paredeY] = '1';
-            paredesPostas++;
+            if(map->Matrix[keysX][keysY] != 'X' && map->Matrix[keysX][keysY] != '1' && map->Matrix[keysX][keysY] != 'C'){
+                map->Matrix[keysX][keysY] = 'C';
+                keysPostas++;
+            }
         }
     }
-
 
     return map;
 }
