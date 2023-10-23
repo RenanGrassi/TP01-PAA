@@ -212,16 +212,16 @@ TipoMap* generateMapAleatorio(){
 
 
     // receber os atributos do mapa
-    map->tamI = 10;
-    map->tamJ = 10;
-    map->chestI = rand() % 10;
-    map->chestJ = rand() % 10;
+    map->tamI = rand() % 5 + 10;
+    map->tamJ = rand() % 5 + 10;
+    map->chestI = rand() % map->tamI;
+    map->chestJ = rand() % map->tamJ;
 
     if(map-> chestI == 0 && map->chestJ == 0)
-        map-> chestI = rand() % map->tamI + 1;
+        map-> chestI = rand() % (map->tamI-1) + 1;
 
-    map->keys = rand() % 6;
-    int paredes = 30;
+    map->keys = rand() % 4 + 1; // no min uma chave
+    int paredes = rand() % (map->tamI + map->tamJ) + 2*(map->tamI + map->tamJ); 
 
     int keysPostas = 0;
     int paredesPostas = 0;
