@@ -19,6 +19,8 @@ typedef struct TipoMap{
     PCaminho caminhosPossiveis;
 }TipoMap;
 
+void timePause(); // pausar o tempo por 
+
 void color(int n);  // selecionar a cor
 
 void exitColor(int n);  // sair da cor selecionada

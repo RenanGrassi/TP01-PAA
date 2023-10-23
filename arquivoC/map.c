@@ -6,6 +6,11 @@ void teste(){ // so para testar onde esta o erro
     refresh();
 }
 
+void timePause(){
+    struct timespec delay = {0, 50000000};  // 50 milissegundos
+    nanosleep(&delay, NULL);
+}
+
 #ifdef __linux__
     void color(int n){
         attron(COLOR_PAIR(n));  // Define a cor do te
@@ -83,7 +88,7 @@ void linha(int tam){
     for (int i = 0; i < tam+2; i++) {
         color(7);
         printw("  ");
-        printf("\033[41m  \033[0m");
+        printf("\033[46m  \033[0m");
         exitColor(7);
         refresh();
     }
@@ -96,7 +101,7 @@ void coluna(int tam){
 
     color(7);
     printw("  ");
-    printf("\033[41m  \033[0m");
+    printf("\033[46m  \033[0m");
     exitColor(7);
     refresh();
 

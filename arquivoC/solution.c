@@ -49,8 +49,8 @@ bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
         (*keys)++;
 
     if(map->MatrixMovimento[atualI][atualJ] == 'X' && *keys == map->keys){
-        printw("\nIndiana Jones conseguiu abrir o bau\n");
-        printf("\nIndiana Jones conseguiu abrir o bau\n");
+        printf("Indiana Jones conseguiu abrir o bau :)\n");
+        printw("Indiana Jones conseguiu abrir o bau :)\n");
         abriu = true;
     }
 
@@ -183,6 +183,7 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
     
 
     for (int i = 0; i < caminho->tamanho; i++) {
+        limparTela();
         printf("\nmostragem: %d\n", *rotaN);
         printw("\nmostragem: %d\n", *rotaN);
         printf("\ntamanho: %d\n", caminho->tamanho);
@@ -190,12 +191,12 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
 
         movimentacaoShow(map, caminho->vetCaminho[i][0], caminho->vetCaminho[i][1], &keys);     
         refresh(); 
-        sleep(0.7);
-        limparTela();
+        timePause();
     }
 
-    printw("Indiana Jones conseguiu abrir o bau :)\n");
-    printf("Indiana Jones conseguiu abrir o bau :)\n");
+    // printw("Indiana Jones conseguiu abrir o bau :)\n");
+    // printf("Indiana Jones conseguiu abrir o bau :)\n");
+    // ncPausar();
     mostragemCaminho(map, caminho->proxCaminho, rotaN);
 
 }
@@ -247,14 +248,10 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
             switch(opcao){
                 case 1:
                     for(int i = 0; i < map->caminhosPossiveis->proxCaminho->tamanho; i++){
-                        movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);
-                        struct timespec delay = {0, 50000000};  // 10 milissegundos
-                        nanosleep(&delay, NULL);
                         limparTela();
+                        movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);
+                        timePause();
                     }
-                    ncPausar();
-                    printf("Indiana Jones conseguiu abrir o bau :)\n");
-                    printw("Indiana Jones conseguiu abrir o bau :)\n");
                     break;
 
                 case 2:
