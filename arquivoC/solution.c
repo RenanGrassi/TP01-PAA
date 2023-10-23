@@ -127,6 +127,9 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** rout
         // onde coloca o caminho percorrido
         irProxCaminho(map->caminhosPossiveis, tam, map, routes);
         (*caminhosJaVistos)++;
+
+        if (*caminhosJaVistos > 40000)
+            return true;
         
     }
 
@@ -253,14 +256,29 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
             
             switch(opcao){
                 case 1:
+                    if (*caminhosJaVistos == 40001){
+                        printw("Indiana Jones talvez nao encontrou o menor caminho, mas eh o melhor dos 40001 percorridos\n");
+                        printf("Indiana Jones talvez nao encontrou o menor caminho, mas eh o melhor dos 40001 percorridos\n");
+                        refresh();
+                    }
+                    ncPausar();
+
                     for(int i = 0; i < map->caminhosPossiveis->proxCaminho->tamanho; i++){
                         limparTela();
+                        printw("tamanho = %d\n", map->caminhosPossiveis->proxCaminho->tamanho);
+                        printf("tamanho = %d\n", map->caminhosPossiveis->proxCaminho->tamanho);
                         movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);
                         timePause();
                     }
                     break;
 
                 case 2:
+                    if (*caminhosJaVistos == 40001){
+                            printw("Indiana Jones talvez nao encontrou o menor caminho, mas eh o melhor dos 40001 percorridos\n");
+                            printf("Indiana Jones talvez nao encontrou o menor caminho, mas eh o melhor dos 40001 percorridos\n");
+                            refresh();
+                        }
+                    ncPausar();
                     mostragemCaminho(map, map->caminhosPossiveis->proxCaminho, &rotaN);
                     break;
 

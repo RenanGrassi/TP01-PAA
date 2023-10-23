@@ -16,6 +16,6 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** rout
 
 void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN); // mostra todos os caminhos de forma recursiva
 
-void procurarCaminho(TipoMap* map, int* caminhosJaVistos);  // procurar os caminhos possiveis
+void procurarCaminho(TipoMap* map, int* caminhosJaVistos);  // menu de mostragem de caminhos possiveis
 
 
