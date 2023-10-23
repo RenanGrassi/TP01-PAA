@@ -24,7 +24,8 @@
         init_color(8, 647, 0, 0);
         init_pair(6, 0, 8);
 
-        init_pair(7, 0, COLOR_BLUE);
+        init_color(10, 0, 0, 570);
+        init_pair(7, 0, 10);
     }
 #endif
 
@@ -39,7 +40,6 @@ void lerArquivo(FILE** f){
         refresh();
 
         strcpy(file_path, "./mapGenerator/");
-        //scanf("%s", file_path);
         strcat(file_path, "map");
 
         scanw("%s", ch);
@@ -112,7 +112,7 @@ void identificarCaminhada(int* i, int* j, char ch){
     }
 }
 
-void chaminhar (TipoMap* map){
+void chaminharUsuario (TipoMap* map){
 
     printw("Voce esta no modo de caminhada!!\n\nNesse modo voce pode se movimentar pelo mapa usando o 'WASD' ou as setas do teclado\nPara sair do modo de caminhada aperte '0' ou quando voce ficar preso por 5 rodadas sera reiniciado o modo\n\nATENCAO AS REGRAS DO JOGO SE MATEM ENTRETANTO VOCE TEM O PODER DE TRANSFORMAR O MAPA EM GLOBO\n\n");
 
@@ -169,7 +169,7 @@ void menu(){
 
     FILE* f;
     TipoMap* map;
-    int opcao = 1;
+    int opcao = -1;
     int mapCriado = 0;
     int caminhosJaVistos = 0;
 
@@ -185,10 +185,10 @@ void menu(){
     while (opcao){
 
         // printar menu
-        printw("\n1 - Ler arquivo e gerar mapa\n2 - Gerar mapa aleatorio\n3 - Printar atributos do mapa\n4 - Printar mapa\n5 - Achar o menor caminho\n6 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
+        printw("\n1 - Ler arquivo e gerar mapa\n2 - Gerar mapa aleatorio\n3 - Printar atributos do mapa\n4 - Printar mapa\n5 - Achar o menor caminho\n6 - Tentar achar algum caminho possivel sozinho\n0 - Sair\n");
         refresh();
 
-        printf("\n1 - Ler arquivo e gerar mapa\n2 - Gerar mapa aleatorio\n3 - Printar atributos do mapa\n4 - Printar mapa\n5 - Achar o menor caminho\n6 - Tentar achar o menor caminho sozinho\n0 - Sair\n");
+        printf("\n1 - Ler arquivo e gerar mapa\n2 - Gerar mapa aleatorio\n3 - Printar atributos do mapa\n4 - Printar mapa\n5 - Achar o menor caminho\n6 - Tentar achar algum caminho possivel sozinho\n0 - Sair\n");
         
         opcao = getch();
         opcao -= 48;
@@ -196,17 +196,6 @@ void menu(){
         limparTela();
 
         switch (opcao){
-
-            case 0:
-                if (caminhosJaVistos)
-                    freeCaminhos(map->caminhosPossiveis->proxCaminho);
-
-                if (mapCriado)
-                    freeMap(map);
-                
-                endwin();
-
-                exit(0);
 
             case 1:
                 if (caminhosJaVistos)
@@ -234,31 +223,60 @@ void menu(){
 
                 if (mapCriado)
                     freeMap(map);
-                
+        
                 map = generateMapAleatorio();
-                
+                printf("\nMapa aleatorio foi gerado, para ver seus atributos selecione 3\n");
+                printw("\nMapa aleatorio foi gerado, para ver seus atributos selecione 3\n");
                 mapCriado = 1;
                 caminhosJaVistos = 0;
                 break;
 
             case 3:
-                printAtributos(map);
-                break;
+                if(mapCriado){
+                    printAtributos(map);
+                    break;
+                }
+                else
+                    opcao = -1;
 
             case 4:
-                showMap(map, false);
-                break;
+                if(mapCriado){
+                    showMap(map, false);
+                    break;
+                }
+                else
+                    opcao = -1;
 
             case 5:
-                procurarCaminho(map, &caminhosJaVistos);// fazer outro menu para escolher a forma de mostrar o caminho
-                break;
+                if(mapCriado){
+                    procurarCaminho(map, &caminhosJaVistos);
+                    break;
+                }
+                else
+                    opcao = -1;
             
             case 6:
-                chaminhar(map);
-                break;
+                if(mapCriado){
+                    chaminharUsuario(map);
+                    break;
+                }
+                else
+                    opcao = -1;
+
+            case 0:
+                if (caminhosJaVistos)
+                    freeCaminhos(map->caminhosPossiveis->proxCaminho);
+
+                if (mapCriado)
+                    freeMap(map);
+                
+                endwin();
+
+                exit(0);
                     
             default:
-                break;
+                printf("Opcao invalida. Tente novamente.\n");
+                printw("Opcao invalida. Tente novamente.\n");
         }
         ncPausar();
     }

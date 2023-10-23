@@ -1,16 +1,5 @@
 #include "../headers/map.h"
 
-void teste(){ // so para testar onde esta o erro
-    printw("\n\nteste\n\n");
-    printf("\n\nteste\n\n");
-    refresh();
-}
-
-void timePause(){
-    struct timespec delay = {0, 50000000};  // 50 milissegundos
-    nanosleep(&delay, NULL);
-}
-
 #ifdef __linux__
     void color(int n){
         attron(COLOR_PAIR(n));  // Define a cor do te
@@ -26,6 +15,17 @@ void timePause(){
     void exitColor(int n){    }
 
 #endif
+
+void teste(){ // so para testar onde esta o erro
+    printw("\n\nteste\n\n");
+    printf("\n\nteste\n\n");
+    refresh();
+}
+
+void timePause(){
+    struct timespec delay = {0, 60000000};  // 50 milissegundos
+    nanosleep(&delay, NULL);
+}
 
 void grafic(char block){
     switch (block){
@@ -56,7 +56,7 @@ void grafic(char block){
         exitColor(3);
         break;
     
-    //desenahr um personagem
+    // desenahr um personagem
     case 'P':
 
         color(4);
@@ -71,13 +71,6 @@ void grafic(char block){
         printf("\033[47m  \033[0m");
         exitColor(5);
         break;
-
-    // case 'A':
-    //     color(6);
-    //     printw("  ");
-    //     printf("  ");
-    //     exitColor(6);
-    //     break;
 
     default:
         break;
@@ -118,7 +111,6 @@ void showMap(TipoMap* map, bool movimento){
                 coluna(map->tamJ);
             }
 
-            // printw("%c ", map->Matrix[i][j]);
             if (movimento)
                 grafic(map->MatrixMovimento[i][j]);
             
@@ -197,7 +189,6 @@ TipoMap* generateMap(FILE* f){
 
 
             if (read >= 48 && read <= 122) {
-                    // printw("%c", read);
                     map->Matrix[i][j] = read;
                     j++;
             }

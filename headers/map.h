@@ -19,6 +19,8 @@ typedef struct TipoMap{
     PCaminho caminhosPossiveis;
 }TipoMap;
 
+void teste(); // para facilitar identificar os erros
+
 void timePause(); // pausar o tempo por 
 
 void color(int n);  // selecionar a cor
@@ -29,16 +31,17 @@ void grafic(char block);  // mostrar o mapa de forma bonita
 
 void linha(int tam);  // mostrar a linha de cima e baixo
 
-void coluna(int tam);
+void coluna(int tam);  // mostrar a coluna da esquerda e direita
 
-void showMap(TipoMap* map, bool movimento);  // mostrar o mapa
+void showMap(TipoMap* map, bool movimento);  // mostrar o mapa true = movimento, false = mapa normal
 
 void atributos(FILE *f, TipoMap* map);  // adicionar os atributos do map.h
 
 void printAtributos(TipoMap* map); // printar os atributos do map.h
-TipoMap* generateMap(FILE* f);  // gerar o mapa
 
-TipoMap* generateMapAleatorio();
+TipoMap* generateMap(FILE* f);  // gerar o mapa por meio do arquivo
+
+TipoMap* generateMapAleatorio(); // gerar o mapa aleatoriamente
 
 void copyMap(TipoMap* map); // copiar o mapa para o mapa de movimento
 

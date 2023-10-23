@@ -124,7 +124,7 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** rout
     (tam)++;
 
     if (x == map->chestI && y == map->chestJ && keys_collected == map->keys) {
-        // onde eu coloco o caminho percorrido
+        // onde coloca o caminho percorrido
         irProxCaminho(map->caminhosPossiveis, tam, map, routes);
         (*caminhosJaVistos)++;
         
@@ -137,8 +137,6 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** rout
     for (int i = 0; i < 4; i++) { // testa a sequencia
         int newX = x + dx[i];
         int newY = y + dy[i];
-
-        
 
         if (checkingRoute(map, &newX, &newY, false)) {
             
@@ -193,10 +191,16 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
         refresh(); 
         timePause();
     }
+    printw("\nSe desejar parar de mostrar aperte 0");
+    printw("\nOu pressione outra tecla para continuar...");
+    printf("\nSe desejar parar de mostrar aperte 0");
+    printf("\nOu pressione outra tecla para continuar...");
+    refresh();
+    int opcao = getch();
+    
+    if(opcao == '0')
+        return;
 
-    // printw("Indiana Jones conseguiu abrir o bau :)\n");
-    // printf("Indiana Jones conseguiu abrir o bau :)\n");
-    // ncPausar();
     mostragemCaminho(map, caminho->proxCaminho, rotaN);
 
 }
@@ -208,9 +212,7 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
         routes[i] = (int*) malloc(sizeof(int) * 2);
     }
 
-    int keys = 0;
     int tam = 0;
-    int rotaN = 0;
 
 
     copyMap(map);
@@ -222,6 +224,9 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
         int opcao = -1  ;
 
         while (opcao != 0){
+            int keys = 0;
+            int rotaN = 0;
+
             copyMap(map);
             
             printf("Foram encontrados %d caminhos possiveis\n", *caminhosJaVistos);
@@ -243,8 +248,9 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
             opcao = getch();
             opcao -= 48;
             
-            limparTela();
-
+            if(opcao != 0)
+                limparTela();
+            
             switch(opcao){
                 case 1:
                     for(int i = 0; i < map->caminhosPossiveis->proxCaminho->tamanho; i++){
@@ -263,17 +269,16 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
                     break;
 
                 case 0:
-                    printf("Saindo...\n");
-                    printw("Saindo...\n");
                     break;
 
                 default:
                     printf("Opcao invalida. Tente novamente.\n");
                     printw("Opcao invalida. Tente novamente.\n");
             }
+            if(opcao != 0){
+                ncPausar();
+            }
 
-            ncPausar();
-            
         }
     }
 
