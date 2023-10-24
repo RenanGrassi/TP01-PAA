@@ -10,7 +10,7 @@ void mostraSequencia(int** routes, int tam); // mostra a sequencia da forma pedi
 
 bool checkingRoute(TipoMap *m, int* x, int* y, bool poder); // verifica se a rota eh valida, poder: true = pode passar pelas paredes, false = não pode passar pelas paredes
 
-bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys); // mostra o mapa movimentacao adicionando a posicao atualI e atualJ
+bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys, bool poder); // mostra o mapa movimentacao adicionando a posicao atualI e atualJ
 
 void movimentacao(TipoMap* map, int atualI, int atualJ); // movimentacao do indiana jones
 

@@ -125,7 +125,7 @@ void chaminharUsuario (TipoMap* map){
     int keys = 0;
 
     copyMap(map);
-    movimentacaoShow(map, x, y, &keys);
+    movimentacaoShow(map, x, y, &keys, true);
     
 
     while (true){
@@ -147,7 +147,7 @@ void chaminharUsuario (TipoMap* map){
         identificarCaminhada(&newX, &newY, ch);
 
         if (checkingRoute(map, &newX, &newY, true)){
-            if(movimentacaoShow(map, newX, newY, &keys))
+            if(movimentacaoShow(map, newX, newY, &keys, true))
                 return;
             x = newX;
             y = newY;
@@ -155,7 +155,7 @@ void chaminharUsuario (TipoMap* map){
         }
 
         else{
-            movimentacaoShow(map, x, y, &keys);
+            movimentacaoShow(map, x, y, &keys, true);
             newX = x;
             newY = y;
             tentativas++;
@@ -236,7 +236,7 @@ void menu(){
 
             case 4:
                 if(mapCriado){
-                    showMap(map, false);
+                    showMap(map, false, false);
                     break;
                 }
 

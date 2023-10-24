@@ -41,7 +41,7 @@ bool checkingRoute(TipoMap *map, int* x, int* y, bool poder) {
     }
 }
 
-bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
+bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys, bool poder){
 
     int abriu = false;
 
@@ -57,7 +57,7 @@ bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
     map->MatrixMovimento[atualI][atualJ] = 'P';
     printw("\n");
     printf("\n");
-    showMap(map, true);
+    showMap(map, true, poder);
     printw("\n Indiana Jones pegou %d chaves\n", *keys);
     printf("\n Indiana Jones pegou %d chaves\n", *keys);
     refresh();
@@ -198,7 +198,7 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
         printf("\ntamanho: %d\n", caminho->tamanho);
         printw("\ntamanho: %d\n", caminho->tamanho);
 
-        movimentacaoShow(map, caminho->vetCaminho[i][0], caminho->vetCaminho[i][1], &keys);     
+        movimentacaoShow(map, caminho->vetCaminho[i][0], caminho->vetCaminho[i][1], &keys, false);     
         refresh(); 
         timePause();
     }
@@ -298,7 +298,7 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos, TipoRecursividade* rec
                         limparTela();
                         printw("tamanho = %d\n", map->caminhosPossiveis->proxCaminho->tamanho);
                         printf("tamanho = %d\n", map->caminhosPossiveis->proxCaminho->tamanho);
-                        movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);
+                        movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys, false);
                         timePause();
                     }
                     break;

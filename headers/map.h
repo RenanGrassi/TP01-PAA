@@ -29,11 +29,11 @@ void exitColor(int n);  // sair da cor selecionada
 
 void grafic(char block);  // mostrar o mapa de forma bonita
 
-void linha(int tam);  // mostrar a linha de cima e baixo
+void linha(int tam, bool poder);  // mostrar a linha de cima e baixo
 
-void coluna(int tam);  // mostrar a coluna da esquerda e direita
+void coluna(int tam, bool poder);  // mostrar a coluna da esquerda e direita
 
-void showMap(TipoMap* map, bool movimento);  // mostrar o mapa true = movimento, false = mapa normal
+void showMap(TipoMap* map, bool movimento, bool poder);  // mostrar o mapa true = movimento, false = mapa normal
 
 void atributos(FILE *f, TipoMap* map);  // adicionar os atributos do map.h
 
