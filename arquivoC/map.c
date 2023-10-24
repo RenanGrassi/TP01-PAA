@@ -77,38 +77,67 @@ void grafic(char block){
     }
 }
 
-void linha(int tam){
-    for (int i = 0; i < tam+2; i++) {
+void linha(int tam, bool poder){
+    if (poder)
         color(7);
+    else
+        color(1);
+
+    for (int i = 0; i < tam+2; i++) {
         printw("  ");
-        printf("\033[46m  \033[0m");
-        exitColor(7);
+
+        if (poder){
+            printf("\033[46m  \033[0m");
+        }
+        else
+            printf("\033[41m  \033[0m");
+        
         refresh();
     }
+    if (poder)
+        exitColor(7);
+    else  
+        exitColor(1);
+
     printw("\n");
     printf("\n");
     refresh();
 }
 
-void coluna(int tam){
+void coluna(int tam, bool poder){
 
-    color(7);
+    if (poder)
+        color(7);
+    else
+        color(1);
+
     printw("  ");
-    printf("\033[46m  \033[0m");
+    
+    if (poder){
+        printf("\033[46m  \033[0m");
+    }
+    else 
+        printf("\033[41m  \033[0m");
+
     exitColor(7);
     refresh();
 
+    if (poder)
+        exitColor(7);
+    else  
+        exitColor(1);
+
 }
 
-void showMap(TipoMap* map, bool movimento){
+void showMap(TipoMap* map, bool movimento, bool poder){
     int i, j;
     
-    linha(map->tamJ);
+    linha(map->tamJ, poder);
 
     for(i = 0; i < map->tamI; i++) {
         for(j = 0; j < map->tamJ; j++) {
             if (j == 0) {
-                coluna(map->tamJ);
+                coluna(map->tamJ, poder);
             }
 
             if (movimento)
@@ -121,7 +150,7 @@ void showMap(TipoMap* map, bool movimento){
 
 
             if (j == map->tamJ - 1) {
-                coluna(map->tamJ);
+                coluna(map->tamJ, poder);
             }
         }
         printw("\n");
@@ -130,7 +159,7 @@ void showMap(TipoMap* map, bool movimento){
     }
 
     
-    linha(map->tamJ); 
+    linha(map->tamJ, poder); 
 
 }
 

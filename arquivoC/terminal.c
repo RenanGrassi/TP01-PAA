@@ -57,7 +57,8 @@ void lerArquivo(FILE** f){
         if(*f == NULL){
             printw("\nArquivo nao encontrado\n\n");
             printf("\nArquivo nao encontrado\n\n");
-        refresh();
+            refresh();
+            ncPausar();
         }
         else{
             printw("\nArquivo encontrado!!!\n\n");
@@ -124,7 +125,7 @@ void chaminharUsuario (TipoMap* map){
     int keys = 0;
 
     copyMap(map);
-    movimentacaoShow(map, x, y, &keys);
+    movimentacaoShow(map, x, y, &keys, true);
     
 
     while (true){
@@ -146,7 +147,7 @@ void chaminharUsuario (TipoMap* map){
         identificarCaminhada(&newX, &newY, ch);
 
         if (checkingRoute(map, &newX, &newY, true)){
-            if(movimentacaoShow(map, newX, newY, &keys))
+            if(movimentacaoShow(map, newX, newY, &keys, true))
                 return;
             x = newX;
             y = newY;
@@ -154,7 +155,7 @@ void chaminharUsuario (TipoMap* map){
         }
 
         else{
-            movimentacaoShow(map, x, y, &keys);
+            movimentacaoShow(map, x, y, &keys, true);
             newX = x;
             newY = y;
             tentativas++;
@@ -169,18 +170,11 @@ void menu(){
 
     FILE* f;
     TipoMap* map;
+    TipoRecursividade rec;
+
     int opcao = -1;
     int mapCriado = 0;
     int caminhosJaVistos = 0;
-
-
-    //fazer um swtich case com as opçoes do menu
-    //1 - ler arquivo / gerar mapa
-    //2 - print atributos
-    //3 - printar o mapa
-    //4 - Achar o menor caminho
-    //5 - Tentar achar o menor caminho sozinho
-    //0 - sair
 
     while (opcao){
 
@@ -209,6 +203,8 @@ void menu(){
                 nc();
 
                 map = generateMap(f);
+                generateRec(&rec);
+
                 fclose(f);
                 
                 mapCriado = 1;
@@ -225,6 +221,7 @@ void menu(){
                     freeMap(map);
         
                 map = generateMapAleatorio();
+                generateRec(&rec);
                 printf("\nMapa aleatorio foi gerado, para ver seus atributos selecione 3\n");
                 printw("\nMapa aleatorio foi gerado, para ver seus atributos selecione 3\n");
                 mapCriado = 1;
@@ -236,32 +233,29 @@ void menu(){
                     printAtributos(map);
                     break;
                 }
-                else
-                    opcao = -1;
 
             case 4:
                 if(mapCriado){
-                    showMap(map, false);
+                    showMap(map, false, false);
                     break;
                 }
-                else
-                    opcao = -1;
 
             case 5:
                 if(mapCriado){
-                    procurarCaminho(map, &caminhosJaVistos);
+                    procurarCaminho(map, &caminhosJaVistos, &rec);
                     break;
                 }
-                else
-                    opcao = -1;
-            
+
             case 6:
                 if(mapCriado){
                     chaminharUsuario(map);
                     break;
                 }
-                else
-                    opcao = -1;
+
+            default:
+                printf("Opcao invalida. Tente novamente.\n");
+                printw("Opcao invalida. Tente novamente.\n");
+                break;
 
             case 0:
                 if (caminhosJaVistos)
@@ -274,9 +268,7 @@ void menu(){
 
                 exit(0);
                     
-            default:
-                printf("Opcao invalida. Tente novamente.\n");
-                printw("Opcao invalida. Tente novamente.\n");
+            
         }
         ncPausar();
     }

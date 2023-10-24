@@ -41,7 +41,7 @@ bool checkingRoute(TipoMap *map, int* x, int* y, bool poder) {
     }
 }
 
-bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
+bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys, bool poder){
 
     int abriu = false;
 
@@ -57,7 +57,7 @@ bool movimentacaoShow(TipoMap* map, int atualI, int atualJ, int* keys){
     map->MatrixMovimento[atualI][atualJ] = 'P';
     printw("\n");
     printf("\n");
-    showMap(map, true);
+    showMap(map, true, poder);
     printw("\n Indiana Jones pegou %d chaves\n", *keys);
     printf("\n Indiana Jones pegou %d chaves\n", *keys);
     refresh();
@@ -115,8 +115,8 @@ void irProxCaminho(PCaminho caminho, int tam, TipoMap* map, int** routes){
            
 }
 
-bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** routes, int tam, int* caminhosJaVistos) {
-    
+bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** routes, int tam, int* caminhosJaVistos, int recursividade, TipoRecursividade* rec) {
+
     movimentacao(map, x, y);
 
     routes[(tam)][0] = x; 
@@ -149,7 +149,14 @@ bool findShortestPath(int x, int y, int keys_collected, TipoMap* map, int** rout
 
             movimentacao(map, newX, newY);
 
-            if (findShortestPath(newX, newY, keys_collected, map, routes, tam, caminhosJaVistos)) {
+            rec->Recursividade++; 
+            recursividade++;
+
+            if (recursividade > rec->maiorRecursividade)
+                rec->maiorRecursividade = recursividade;
+            // conta a recursividade sempre que entra na funcao findShortestPath
+
+            if (findShortestPath(newX, newY, keys_collected, map, routes, tam, caminhosJaVistos, recursividade, rec)) {
                 return true;
             }
 
@@ -175,6 +182,7 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
     copyMap(map);
 
     if (caminho == NULL) {
+        limparTela();
         printf("\n\nIndiana Jones correu muito!! Mas acabou\n\n");
         printw("\n\nIndiana Jones correu muito!! Mas acabou\n\n");
         refresh();
@@ -190,7 +198,7 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
         printf("\ntamanho: %d\n", caminho->tamanho);
         printw("\ntamanho: %d\n", caminho->tamanho);
 
-        movimentacaoShow(map, caminho->vetCaminho[i][0], caminho->vetCaminho[i][1], &keys);     
+        movimentacaoShow(map, caminho->vetCaminho[i][0], caminho->vetCaminho[i][1], &keys, false);     
         refresh(); 
         timePause();
     }
@@ -208,7 +216,21 @@ void mostragemCaminho(TipoMap* map, PCaminho caminho, int* rotaN){
 
 }
 
-void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
+void mostraRecursividade(TipoRecursividade* rec){
+    printf("Nivel maximo recursividade: %d\n", rec->maiorRecursividade);
+    printf("Recursividade: %ld\n", rec->Recursividade);
+
+    printw("Nivel maximo recursividade: %d\n", rec->maiorRecursividade);
+    printw("Recursividade: %ld\n", rec->Recursividade);
+    refresh();
+}
+
+void generateRec(TipoRecursividade* rec){
+    rec->maiorRecursividade = 0;
+    rec->Recursividade = 0;
+}
+
+void procurarCaminho(TipoMap* map, int* caminhosJaVistos, TipoRecursividade* rec){
 
     int** routes = (int**) malloc(sizeof(int*) * (map->tamI * map->tamJ));
     for (int i = 0; i < map->tamI * map->tamJ; i++) {
@@ -216,11 +238,18 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
     }
 
     int tam = 0;
-
+    int recursividade = 0;
 
     copyMap(map);
-    if (map->caminhosPossiveis->proxCaminho == NULL)
-        findShortestPath(0, 0, 0, map, routes, tam, caminhosJaVistos);
+    if (map->caminhosPossiveis->proxCaminho == NULL){
+        rec->Recursividade++; 
+        recursividade++;
+
+        if (recursividade > rec->maiorRecursividade)
+            rec->maiorRecursividade = recursividade;
+        // conta a primeira chamada da funçao findShortestPath
+        findShortestPath(0, 0, 0, map, routes, tam, caminhosJaVistos, recursividade, rec);
+    }
     
     
     if(*caminhosJaVistos){
@@ -237,6 +266,7 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
             printf("1 - Mostrar o menor caminho\n");
             printf("2 - Mostrar todos os caminhos\n");
             printf("3 - Mostrar como solicitado na especificacao do TP\n");
+            printf("4 - Mostrar recursividade\n");
             printf("0 - Sair\n");
 
             printw("Foram encontrados %d caminhos possiveis\n", *caminhosJaVistos);
@@ -244,6 +274,7 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
             printw("1 - Mostrar o menor caminho\n");
             printw("2 - Mostrar todos os caminhos\n");
             printw("3 - Mostrar como solicitado na especificacao do TP\n");
+            printw("4 - Mostrar recursividade\n");
             printw("0 - Sair\n");
 
             refresh();
@@ -260,14 +291,14 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
                         printw("Indiana Jones talvez nao encontrou o menor caminho, mas eh o melhor dos 40001 percorridos\n");
                         printf("Indiana Jones talvez nao encontrou o menor caminho, mas eh o melhor dos 40001 percorridos\n");
                         refresh();
+                        ncPausar();
                     }
-                    ncPausar();
 
                     for(int i = 0; i < map->caminhosPossiveis->proxCaminho->tamanho; i++){
                         limparTela();
                         printw("tamanho = %d\n", map->caminhosPossiveis->proxCaminho->tamanho);
                         printf("tamanho = %d\n", map->caminhosPossiveis->proxCaminho->tamanho);
-                        movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys);
+                        movimentacaoShow(map, map->caminhosPossiveis->proxCaminho->vetCaminho[i][0], map->caminhosPossiveis->proxCaminho->vetCaminho[i][1], &keys, false);
                         timePause();
                     }
                     break;
@@ -277,15 +308,18 @@ void procurarCaminho(TipoMap* map, int* caminhosJaVistos){
                             printw("Indiana Jones talvez nao encontrou o menor caminho, mas eh o melhor dos 40001 percorridos\n");
                             printf("Indiana Jones talvez nao encontrou o menor caminho, mas eh o melhor dos 40001 percorridos\n");
                             refresh();
+                            ncPausar();
                         }
-                    ncPausar();
                     mostragemCaminho(map, map->caminhosPossiveis->proxCaminho, &rotaN);
                     break;
 
                 case 3:
                     mostrarSequencia(map->caminhosPossiveis->proxCaminho->vetCaminho, map->caminhosPossiveis->proxCaminho->tamanho);
                     break;
-
+                
+                case 4:
+                    mostraRecursividade(rec);
+                    break;
                 case 0:
                     break;
 
